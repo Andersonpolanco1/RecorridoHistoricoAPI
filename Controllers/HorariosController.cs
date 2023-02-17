@@ -82,7 +82,13 @@ namespace EdecanesV2.Controllers
 
             try
             {
-                var horario = await _horariosRepository.EditAsync(_mapper.Map<Horario>(horarioRecorrido));
+                var horarioDb = _horariosRepository.GetByIdAsync(horarioRecorrido.Id).Result;
+            
+                if (horarioDb == null)
+                    return BadRequest();
+
+                _mapper.Map(horarioRecorrido, horarioDb);
+                var horario = await _horariosRepository.EditAsync(horarioDb);
                 return Ok(_mapper.Map<HorarioDto>(horario));
             }
             catch (Exception ex)

@@ -3,7 +3,10 @@ using EdecanesV2.Models;
 using EdecanesV2.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Text;
+using static EdecanesV2.Models.Horario;
 
 namespace EdecanesV2.Repositories.Impl
 {
@@ -36,50 +39,18 @@ namespace EdecanesV2.Repositories.Impl
 
         public async Task<Horario> CreateAsync(Horario horarioRecorrido)
         {
-            if (!EsHorarioValido(horarioRecorrido))
-            {
-                string msgError = new StringBuilder(150)
-                    .Append("Este tipo de recorrido ya tiene registrado el día ")
-                    .Append(horarioRecorrido.Dia.ToString().ToLower())
-                    .Append(" en tanda ")
-                    .Append(horarioRecorrido.TandaId)
-                    .Append($" hora {horarioRecorrido.Hora}")
-                    .ToString();
-
-                throw new ArgumentException(msgError);
-            }
-            else
-            {
-                _context.Add(horarioRecorrido);
-                await _context.SaveChangesAsync();
-                return horarioRecorrido;
-            }
+            ValidarHorario(horarioRecorrido);
+            _context.Add(horarioRecorrido);
+            await _context.SaveChangesAsync();
+            return horarioRecorrido;
         }
 
         public async Task<Horario> EditAsync(Horario horarioRecorrido)
         {
-            if (!_context.Horarios.Any(h => h.Id == horarioRecorrido.Id))
-                throw new NullReferenceException("No se pudo actualizar.");
-
-
-            if (!EsHorarioValido(horarioRecorrido))
-            {
-                string msgError = new StringBuilder(150)
-                    .Append("Este tipo de recorrido ya tiene registrado el día ")
-                    .Append(horarioRecorrido.Dia.ToString().ToLower())
-                    .Append(" en tanda ")
-                    .Append(horarioRecorrido.TandaId)
-                    .Append($" hora {horarioRecorrido.Hora}")
-                    .ToString();
-
-                throw new ArgumentException(msgError);
-            }
-            else
-            {
-                _context.Update(horarioRecorrido);
-                await _context.SaveChangesAsync();
-                return horarioRecorrido;
-            }
+            ValidarHorario(horarioRecorrido);
+            _context.Update(horarioRecorrido);
+            await _context.SaveChangesAsync();
+            return horarioRecorrido;
         }
 
         public async Task DeleteAsync(int id)
@@ -94,28 +65,33 @@ namespace EdecanesV2.Repositories.Impl
             await _context.SaveChangesAsync();
         }
 
-        public bool EsHorarioValido(Horario horarioRecorrido)
+        public void ValidarHorario(Horario horarioRecorrido)
         {
-            var horarios = _context.Horarios
-                .AsNoTracking()
-                .Where(h => h.TipoRecorridoId == horarioRecorrido.TipoRecorridoId)
-                .ToList();
+            if (!_context.Tandas.Any(t => t.Id == horarioRecorrido.TandaId))
+                throw new ArgumentException("Tanda no valida.");
 
-            if (!horarios.Any(h => h.Id == horarioRecorrido.Id))
-                return false;
+            if (!_context.Tipos.Any(t => t.Id == horarioRecorrido.TipoRecorridoId))
+                throw new ArgumentException("Tipo de recorrido no valido.");
 
-            var horarioBD = horarios.First(h => h.Id == horarioRecorrido.Id);
+            if (!Enum.IsDefined(typeof(DiaSemana), horarioRecorrido.Dia))
+                throw new ArgumentException("Dia de semana no valido.");
 
-            if (horarioBD.Id == horarioRecorrido.Id && horarioBD.TandaId == horarioRecorrido.TandaId) //si está actualizando en la misma tanda
+            if(_context.Horarios.Any(h =>
+                h.TipoRecorridoId == horarioRecorrido.TipoRecorridoId &&
+                h.Dia == horarioRecorrido.Dia &&
+                h.TandaId == horarioRecorrido.TandaId &&
+                h.Hora == horarioRecorrido.Hora))
             {
-                if (horarioBD.Dia == horarioRecorrido.Dia) //si está actualizando en la misma tanda y mismo dia semana
-                    return !(horarioBD.Hora == horarioRecorrido.Hora); // si está actualizando en la misma tanda, mismo dia semana y hora
-                else
-                    return !horarios.Any(h => h.Dia == horarioRecorrido.Dia && h.Hora == horarioRecorrido.Hora);
-            }
-            else
-                return !horarios.Any(h => h.TandaId == horarioRecorrido.TandaId && h.Dia == horarioRecorrido.Dia && h.Hora == horarioRecorrido.Hora);
+                string msgError = new StringBuilder(150)
+                   .Append("Este tipo de recorrido ya tiene registrado el día ")
+                   .Append(horarioRecorrido.Dia.ToString().ToLower())
+                   .Append(" en tanda ")
+                   .Append(horarioRecorrido.TandaId)
+                   .Append($" hora {horarioRecorrido.Hora}")
+                   .ToString();
 
+                throw new ArgumentException(msgError);
+            }
         }
 
         public async Task<IEnumerable<Horario>> GetHorariosByTipoRecorridoIdAsync(int tipoRecorridoId)

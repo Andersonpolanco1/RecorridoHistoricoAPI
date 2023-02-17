@@ -10,7 +10,6 @@ namespace EdecanesV2.Repositories.Abstract
         Task<Horario> CreateAsync(Horario horarioRecorrido);
         Task<Horario> EditAsync(Horario horarioRecorrido);
         Task DeleteAsync(int horarioId);
-        bool EsHorarioValido(Horario horarioRecorrido);
         bool EsTandaValida(int tandaId);
         Task<IEnumerable<Horario>> GetHorariosByTipoRecorrido(int tandaId, int tipoRecorridoId);
         Task<Tipo?> GetTipoRecorridoDeHorario(int horarioId);
