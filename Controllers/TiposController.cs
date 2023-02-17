@@ -10,6 +10,7 @@ using EdecanesV2.Models;
 using AutoMapper;
 using EdecanesV2.Models.DTOs.TipoRecorrido;
 using EdecanesV2.Repositories.Abstract;
+using EdecanesV2.Models.DTOs.Horario;
 
 namespace EdecanesV2.Controllers
 {
@@ -17,36 +18,36 @@ namespace EdecanesV2.Controllers
     [ApiController]
     public class TiposController : ControllerBase
     {
-        private readonly ITiposRepository _tipoRepository;
-       // private readonly IHorariosRepository _horariosRepository;
+        private readonly ITiposRepository _tiposRepository;
+        private readonly IHorariosRepository _horariosRepository;
         private readonly IMapper _mapper;
 
-        public TiposRecorridosController(ITiposRecorridosRepository tiposRecorridos, IHorariosRecorridoRepository horariosRecorridoRepository, IMapper mapper)
+        public TiposController(ITiposRepository tiposRecorridos, IHorariosRepository horariosRepository, IMapper mapper)
         {
-            _tiposRecorridoRepository = tiposRecorridos;
-            _horariosRecorridoRepository = horariosRecorridoRepository;
+            _tiposRepository = tiposRecorridos;
+            _horariosRepository = horariosRepository;
             _mapper = mapper;
         }
 
 
-        // GET: TiposRecorridos
+        // GET: api/Tipos
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TipoRecorridoReadDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TipoReadDto>))]
         public async Task<IActionResult> GetAllAsync()
         {
-            var tipos = await _tiposRecorridoRepository.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<TipoRecorridoReadDto>>(tipos));
+            var tipos = await _tiposRepository.GetAllAsync();
+            return Ok(_mapper.Map<IEnumerable<TipoReadDto>>(tipos));
         }
 
-        // GET: TiposRecorridos/5
+        // GET: api/Tipos/5
         [HttpGet("{id}", Name = "GetAsync")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TipoRecorrido))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Tipo))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAsync(int id)
         {
             try
             {
-                var tipoRecorrido = await _tiposRecorridoRepository.GetByIdAsync(id);
+                var tipoRecorrido = await _tiposRepository.GetByIdAsync(id);
                 return Ok(tipoRecorrido);
             }
             catch (NullReferenceException ex)
@@ -56,19 +57,19 @@ namespace EdecanesV2.Controllers
         }
 
 
-        // POST: TiposRecorridos
+        // POST: api/Tipos
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TipoRecorrido))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TipoReadDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateAsync(NuevoTipoRecorridoDto tipoRecorrido)
+        public async Task<IActionResult> CreateAsync(TipoCreateDto tipoRecorrido)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                var tipo = await _tiposRecorridoRepository.CreateAsync(_mapper.Map<TipoRecorrido>(tipoRecorrido));
-                return CreatedAtRoute(nameof(GetAsync), new { id = tipo.Id }, tipo);
+                var tipo = await _tiposRepository.CreateAsync(_mapper.Map<Tipo>(tipoRecorrido));
+                return CreatedAtRoute(nameof(GetAsync), new { id = tipo.Id }, _mapper.Map<TipoReadDto>(tipo));
             }
             catch (ArgumentException ex)
             {
@@ -77,21 +78,21 @@ namespace EdecanesV2.Controllers
         }
 
 
-        // PUT: TiposRecorridos
+        // PUT: api/Tipos
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TipoRecorrido))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TipoReadDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> EditAsync(TipoRecorridoUpdateDto tipoRecorrido)
+        public async Task<IActionResult> EditAsync(TipoUpdateDto tipoRecorrido)
         {
-            var tipo = await _tiposRecorridoRepository.GetByIdAsync(tipoRecorrido.Id);
+            var tipo = _tiposRepository.GetByIdAsync(tipoRecorrido.Id).Result;
 
             if (tipo == null)
                 return BadRequest();
 
             try
             {
-                _mapper.Map(tipoRecorrido, tipo);
-                var updated = await _tiposRecorridoRepository.EditAsync(tipo);
+                tipo = _mapper.Map(tipoRecorrido, tipo);
+                var updated = await _tiposRepository.EditAsync(tipo);
                 return Ok(updated);
             }
             catch (ArgumentException ex)
@@ -101,7 +102,7 @@ namespace EdecanesV2.Controllers
         }
 
 
-        // DELETE: TiposRecorridos/5
+        // DELETE: api/Tipos/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -109,7 +110,7 @@ namespace EdecanesV2.Controllers
         {
             try
             {
-                await _tiposRecorridoRepository.DeleteAsync(id);
+                await _tiposRepository.DeleteAsync(id);
                 return Ok();
             }
             catch (NullReferenceException ex)
@@ -118,7 +119,7 @@ namespace EdecanesV2.Controllers
             }
         }
 
-        // GET: TiposRecorridos/5/horarios
+        // GET: api/Tipos/5/horarios
         [HttpGet("{id}/horarios")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<HorarioDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -126,7 +127,7 @@ namespace EdecanesV2.Controllers
         {
             try
             {
-                var horarios = await _horariosRecorridoRepository.GetHorariosByTipoRecorridoIdAsync(id);
+                var horarios = await _horariosRepository.GetHorariosByTipoRecorridoIdAsync(id);
                 return Ok(_mapper.Map<IEnumerable<HorarioDto>>(horarios));
             }
             catch (NullReferenceException ex)

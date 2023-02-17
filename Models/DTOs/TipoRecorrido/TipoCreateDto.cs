@@ -2,7 +2,7 @@
 
 namespace EdecanesV2.Models.DTOs.TipoRecorrido
 {
-    public class NuevoTipoRecorridoDto
+    public class TipoCreateDto
     {
         [MaxLength(50)]
         public string Nombre { get; set; } = string.Empty;

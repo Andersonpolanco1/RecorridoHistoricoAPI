@@ -2,7 +2,7 @@
 
 namespace EdecanesV2.Models.DTOs.TipoRecorrido
 {
-    public class TipoRecorridoReadDto
+    public class TipoReadDto
     {
         public int Id { get; set; }
 

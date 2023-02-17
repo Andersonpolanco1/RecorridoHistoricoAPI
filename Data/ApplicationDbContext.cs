@@ -1,4 +1,5 @@
-﻿using EdecanesV2.Maps;
+﻿using EdecanesV2.Extensions;
+using EdecanesV2.Maps;
 using EdecanesV2.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -32,6 +33,30 @@ namespace EdecanesV2.Data
             modelBuilder.ApplyConfiguration(new RecorridoHistoricoMap());
             modelBuilder.ApplyConfiguration(new TandaMap());
             modelBuilder.ApplyConfiguration(new TipoMap());
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ChangeTracker.SetAuditProperties();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            ChangeTracker.SetAuditProperties();
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        public override int SaveChanges()
+        {
+            ChangeTracker.SetAuditProperties();
+            return base.SaveChanges();
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            ChangeTracker.SetAuditProperties();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
         }
     }
 }

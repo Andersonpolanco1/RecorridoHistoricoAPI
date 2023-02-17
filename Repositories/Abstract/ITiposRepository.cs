@@ -7,6 +7,7 @@ namespace EdecanesV2.Repositories.Abstract
         Task<IEnumerable<Tipo>> GetAllAsync();
         Task<Tipo> GetByIdAsync(int id);
         Task<Tipo> CreateAsync(Tipo tipoRecorrido);
+        Task<Tipo> EditAsync(Tipo tipoRecorrido);
         Task DeleteAsync(int id);
         bool TipoRecorridoExists(int id);
     }
