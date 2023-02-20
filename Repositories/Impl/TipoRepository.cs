@@ -59,7 +59,7 @@ namespace EdecanesV2.Repositories.Impl
 
 
             if (tipo.Horarios.Any(h => h.Id == horario.Id))
-                throw new Exception($"Tipo de recorrido ya tiene el horario {horario}");
+                throw new Exception($"Tipo de recorrido ya tiene el horario {horario.Descripcion()}");
 
             tipo.Horarios.Add(horario);
             _context.SaveChanges();

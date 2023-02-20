@@ -121,9 +121,9 @@ namespace EdecanesV2.Controllers
         [HttpGet("/api/tandas/{tandaId}/tipos/{tiporecorridoId}/horarios")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetHorariosByTipoRecorrido(int tandaId, int tiporecorridoId)
+        public IActionResult GetHorariosByTipoRecorrido(int tandaId, int tiporecorridoId)
         {
-            var horarios = await _horariosRepository.GetHorariosByTipoRecorrido(tandaId, tiporecorridoId);
+            var horarios =  _horariosRepository.GetHorariosByTipoRecorrido(tandaId, tiporecorridoId);
             return Ok(_mapper.Map<IEnumerable<HorarioDto>>(horarios));
 
         }

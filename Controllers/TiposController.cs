@@ -46,7 +46,7 @@ namespace EdecanesV2.Controllers
             try
             {
                 var tipoRecorrido = await _tiposRepository.GetByIdAsync(id);
-                return Ok(tipoRecorrido);
+                return Ok(_mapper.Map<TipoReadDto>(tipoRecorrido));
             }
             catch (NullReferenceException ex)
             {
@@ -91,7 +91,7 @@ namespace EdecanesV2.Controllers
             {
                 tipo = _mapper.Map(tipoRecorrido, tipo);
                 var updated = await _tiposRepository.EditAsync(tipo);
-                return Ok(updated);
+                return Ok(_mapper.Map<TipoReadDto>(updated));
             }
             catch (ArgumentException ex)
             {
@@ -134,8 +134,8 @@ namespace EdecanesV2.Controllers
             }
         }
 
-        // POST: api/Tipos/5/agregarhorario/6
-        [HttpPost("{id}/agregarhorario/{horarioId}")]
+        // POST: api/Tipos/5/horarios/6
+        [HttpPost("{id}/horarios/{horarioId}")]
         public IActionResult AgregarHorario(int id, int horarioId)
         {
             try
@@ -149,8 +149,8 @@ namespace EdecanesV2.Controllers
             }
         }
 
-        // POST: api/Tipos/5/agregarhorario/6
-        [HttpPost("{id}/removerhorario/{horarioId}")]
+        // POST: api/Tipos/5/horarios/6
+        [HttpDelete("{id}/horarios/{horarioId}")]
         public IActionResult RemoverHorario(int id, int horarioId)
         {
             try
