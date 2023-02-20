@@ -8,7 +8,7 @@ namespace EdecanesV2.Maps
     {
         public override void Configure(EntityTypeBuilder<Horario> builder)
         {
-            base.Configure(builder);
+            builder.HasQueryFilter(h =>h.DeletedAt==null && h.Tanda.DeletedAt == null && h.TipoRecorrido.DeletedAt == null);
         }
     }
 }

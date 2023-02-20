@@ -71,10 +71,10 @@ namespace EdecanesV2.Repositories.Impl
                 throw new ArgumentException("Tanda no valida.");
 
             if (!_context.Tipos.Any(t => t.Id == horarioRecorrido.TipoRecorridoId))
-                throw new ArgumentException("Tipo de recorrido no valido.");
+                throw new ArgumentException("Tipo de recorrido no válido.");
 
             if (!Enum.IsDefined(typeof(DiaSemana), horarioRecorrido.Dia))
-                throw new ArgumentException("Dia de semana no valido.");
+                throw new ArgumentException("Día de semana no válido.");
 
             if(_context.Horarios.Any(h =>
                 h.TipoRecorridoId == horarioRecorrido.TipoRecorridoId &&
