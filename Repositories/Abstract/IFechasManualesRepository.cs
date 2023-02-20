@@ -9,5 +9,9 @@ namespace EdecanesV2.Repositories.Abstract
         Task<FechaManual?> GetAsync(int id);
         Task<FechaManual> EditAsync(FechaManual fechaManual);
         Task DeleteAsync(int id);
+
+        void RestoreDeleted(int id);
+        IEnumerable<FechaManual> Deleted();
+        FechaManual? GetDeleted(int id);
     }
 }

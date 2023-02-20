@@ -4,6 +4,7 @@ using EdecanesV2.Models;
 using EdecanesV2.Repositories.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using EdecanesV2.Repositories.Impl;
 
 namespace EdecanesV2.Controllers
 {
@@ -104,6 +105,43 @@ namespace EdecanesV2.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+
+        // POST: api/FechasManuales/5
+        [HttpPost("restoredeleted/{id}")]
+        public IActionResult RestoreDeleted(int id)
+        {
+            try
+            {
+                _fechasManualesRepository.RestoreDeleted(id);
+                return Ok("Restored");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/FechasManuales/5
+        [HttpGet("deleted")]
+        public IActionResult Deleted()
+        {
+            return Ok(_fechasManualesRepository.Deleted());
+        }
+
+        // GET: api/Tipos/FechasManuales/5
+        [HttpGet("deleted/{id}")]
+        public IActionResult Deleted(int id)
+        {
+            var tipo = _fechasManualesRepository.GetDeleted(id);
+
+            if (tipo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tipo);
         }
     }
 }
