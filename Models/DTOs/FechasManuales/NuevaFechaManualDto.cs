@@ -1,22 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-using EdecanesV2.Models.Base;
 
-namespace EdecanesV2.Models
+namespace EdecanesV2.Models.DTOs.FechasManuales
 {
-    [Table("FechasManuales")]
-    public class FechaManual : EntityBase
+    public class NuevaFechaManualDto
     {
-        [DataType(DataType.Date)]
         [Column(TypeName = "Date")]
         public DateTime Fecha { get; set; }
 
         public bool EsRecurrente { get; set; }
-
-        public DateTime FechaRegistro { get; set; }
-
+        
+        [MaxLength(150)]
+        [Required(ErrorMessage = "Escriba un comentario")]
         public string Comentario { get; set; } = null!;
     }
 }

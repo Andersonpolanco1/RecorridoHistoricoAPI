@@ -17,6 +17,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<ITiposRepository, TipoRepository>();
 builder.Services.AddScoped<IHorariosRepository, HorariosRepository>();
+builder.Services.AddScoped<IFechasManualesRepository, FechasManualesRepository>();
 
 var app = builder.Build();
 
