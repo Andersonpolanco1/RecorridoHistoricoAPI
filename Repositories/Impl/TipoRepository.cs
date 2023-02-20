@@ -4,6 +4,7 @@ using EdecanesV2.Models;
 using EdecanesV2.Repositories.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace EdecanesV2.Repositories.Impl
 {
@@ -42,6 +43,46 @@ namespace EdecanesV2.Repositories.Impl
             _context.Add(tipoRecorrido);
             await _context.SaveChangesAsync();
             return tipoRecorrido;
+        }
+
+        public void AddHorario(int tipoId, int horarioId)
+        {
+            var tipo = _context.Tipos.Include(t => t.Horarios).FirstOrDefault(t => t.Id == tipoId);
+
+            if (tipo == null)
+                throw new Exception("Tipo de recorrido no valido");
+
+            var horario = _context.Horarios.FirstOrDefault(h => h.Id == horarioId);
+
+            if (horario == null)
+                throw new Exception("Horario no valido");
+
+
+            if (tipo.Horarios.Any(h => h.Id == horario.Id))
+                throw new Exception($"Tipo de recorrido ya tiene el horario {horario}");
+
+            tipo.Horarios.Add(horario);
+            _context.SaveChanges();
+        }
+
+        public void RemoveHorario(int tipoId, int horarioId)
+        {
+            var tipo = _context.Tipos.Include(t => t.Horarios).FirstOrDefault(t => t.Id == tipoId);
+
+            if (tipo == null)
+                throw new Exception("Tipo de recorrido no valido");
+
+            var horario = _context.Horarios.FirstOrDefault(h => h.Id == horarioId);
+
+            if (horario == null)
+                throw new Exception("Horario no valido");
+
+
+            if (!tipo.Horarios.Any(h => h.Id == horario.Id))
+                throw new Exception($"No se pudo remover horario");
+
+            tipo.Horarios.Remove(horario);
+            _context.SaveChanges();
         }
 
         public async Task<Tipo> EditAsync(Tipo tipoRecorrido)
@@ -93,6 +134,15 @@ namespace EdecanesV2.Repositories.Impl
         public Tipo? GetDeleted(int id)
         {
             return _context.Tipos.IgnoreQueryFilters().FirstOrDefault(t => t.Id == id && t.DeletedAt.HasValue);
+        }
+
+        public IEnumerable<Horario> GetHorarios(int tipoId)
+        {
+            var query = from horario in _context.Horarios
+                        where horario.TiposRecorrido.Any(h => h.Id == tipoId)
+                        select horario;
+
+            return query.ToList();
         }
     }
 }

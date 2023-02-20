@@ -23,8 +23,6 @@ namespace EdecanesV2.Repositories.Impl
         public async Task<IEnumerable<Horario>> GetAllAsync()
         {
             return await _context.Horarios.AsNoTracking()
-                .Include(t => t.TipoRecorrido)
-                .OrderBy(x => x.TipoRecorridoId)
                 .ToListAsync();
         }
 
@@ -71,14 +69,14 @@ namespace EdecanesV2.Repositories.Impl
             if (!_context.Tandas.Any(t => t.Id == horarioRecorrido.TandaId))
                 throw new ArgumentException("Tanda no valida.");
 
-            if (!_context.Tipos.Any(t => t.Id == horarioRecorrido.TipoRecorridoId))
-                throw new ArgumentException("Tipo de recorrido no válido.");
+            //if (!_context.Tipos.Any(t => t.Id == horarioRecorrido.TipoRecorridoId))
+            //    throw new ArgumentException("Tipo de recorrido no válido.");
 
             if (!Enum.IsDefined(typeof(DiaSemana), horarioRecorrido.Dia))
                 throw new ArgumentException("Día de semana no válido.");
 
             if(_context.Horarios.Any(h =>
-                h.TipoRecorridoId == horarioRecorrido.TipoRecorridoId &&
+              //  h.TipoRecorridoId == horarioRecorrido.TipoRecorridoId &&
                 h.Dia == horarioRecorrido.Dia &&
                 h.TandaId == horarioRecorrido.TandaId &&
                 h.Hora == horarioRecorrido.Hora))
@@ -95,36 +93,19 @@ namespace EdecanesV2.Repositories.Impl
             }
         }
 
-        public async Task<IEnumerable<Horario>> GetHorariosByTipoRecorridoIdAsync(int tipoRecorridoId)
-        {
-            return await _context.Horarios
-                .Where(h => h.TipoRecorridoId == tipoRecorridoId)
-                .ToListAsync();
-        }
-
         public bool EsTandaValida(int tandaId)
         {
             return _context.Tandas.Any(t => t.Id == tandaId);
         }
 
-        public async Task<Tipo?> GetTipoRecorridoDeHorario(int horarioId)
-        {
-            var horario = await _context.Horarios
-                .Include(h => h.TipoRecorrido)
-                .FirstOrDefaultAsync(h => h.Id == horarioId);
-
-            if (horario == null)
-                throw new NullReferenceException("No se encontro el registro");
-
-            return horario.TipoRecorrido;
-        }
-
         public async Task<IEnumerable<Horario>> GetHorariosByTipoRecorrido(int tandaId, int tipoRecorridoId)
         {
-            return await _context.Horarios
-                 .Include(h => h.TipoRecorrido)
-                 .Where(h => h.TandaId == tandaId && h.TipoRecorridoId == tipoRecorridoId)
-                 .ToListAsync();
+            var query = from horario in _context.Horarios
+                        where horario.TiposRecorrido.Any(h => h.Id == tipoRecorridoId)
+                        select horario;
+
+            return query.Where(h => h.TandaId == tandaId);
+                        
         }
 
         public void RestoreDeleted(int id)

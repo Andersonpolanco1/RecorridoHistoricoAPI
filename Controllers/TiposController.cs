@@ -19,13 +19,11 @@ namespace EdecanesV2.Controllers
     public class TiposController : ControllerBase
     {
         private readonly ITiposRepository _tiposRepository;
-        private readonly IHorariosRepository _horariosRepository;
         private readonly IMapper _mapper;
 
-        public TiposController(ITiposRepository tiposRecorridos, IHorariosRepository horariosRepository, IMapper mapper)
+        public TiposController(ITiposRepository tiposRecorridos, IMapper mapper)
         {
             _tiposRepository = tiposRecorridos;
-            _horariosRepository = horariosRepository;
             _mapper = mapper;
         }
 
@@ -123,11 +121,11 @@ namespace EdecanesV2.Controllers
         [HttpGet("{id}/horarios")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<HorarioDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetHorariosByTipoRecorridoIdAsync(int id)
+        public IActionResult GetHorariosByTipoRecorridoIdAsync(int id)
         {
             try
             {
-                var horarios = await _horariosRepository.GetHorariosByTipoRecorridoIdAsync(id);
+                var horarios =  _tiposRepository.GetHorarios(id);
                 return Ok(_mapper.Map<IEnumerable<HorarioDto>>(horarios));
             }
             catch (NullReferenceException ex)
@@ -136,7 +134,37 @@ namespace EdecanesV2.Controllers
             }
         }
 
-        // POST: api/Tipos/5
+        // POST: api/Tipos/5/agregarhorario/6
+        [HttpPost("{id}/agregarhorario/{horarioId}")]
+        public IActionResult AgregarHorario(int id, int horarioId)
+        {
+            try
+            {
+                _tiposRepository.AddHorario(id, horarioId);
+                return Ok("horario agregado");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // POST: api/Tipos/5/agregarhorario/6
+        [HttpPost("{id}/removerhorario/{horarioId}")]
+        public IActionResult RemoverHorario(int id, int horarioId)
+        {
+            try
+            {
+                _tiposRepository.RemoveHorario(id, horarioId);
+                return Ok("horario removido");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // POST: api/Tipos/restoredeleted/5
         [HttpPost("restoredeleted/{id}")]
         public IActionResult RestoreDeleted(int id)
         {
@@ -151,7 +179,7 @@ namespace EdecanesV2.Controllers
             }
         }
 
-        // GET: api/Tipos/5
+        // GET: api/Tipos/deleted
         [HttpGet("deleted")]
         public IActionResult Deleted()
         {

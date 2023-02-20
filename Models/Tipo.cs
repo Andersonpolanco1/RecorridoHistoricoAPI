@@ -20,5 +20,7 @@ namespace EdecanesV2.Models
         [MaxLength(255)]
         public string? Descripcion { get; set; }
 
+        public List<Horario> Horarios { get; set; } = new List<Horario>();
+
     }
 }

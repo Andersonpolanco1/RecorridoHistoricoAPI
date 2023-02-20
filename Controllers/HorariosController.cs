@@ -10,12 +10,12 @@ namespace EdecanesV2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HorariosRecorridosController : ControllerBase
+    public class HorariosController : ControllerBase
     {
         private readonly IHorariosRepository _horariosRepository;
         private readonly IMapper _mapper;
 
-        public HorariosRecorridosController(IHorariosRepository repo, IMapper mapper)
+        public HorariosController(IHorariosRepository repo, IMapper mapper)
         {
             _horariosRepository = repo;
             _mapper = mapper;
@@ -116,21 +116,6 @@ namespace EdecanesV2.Controllers
             }
         }
 
-        // GET: api/Horarios/3/TipoRecorrido
-        [HttpGet("{horarioId}/TipoRecorrido")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetTiposRecorridos(int horarioId)
-        {
-            try
-            {
-                return Ok(await _horariosRepository.GetTipoRecorridoDeHorario(horarioId));
-            }
-            catch (NullReferenceException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         // GET: api/tandas/1/tipos/4/horarios
         [HttpGet("/api/tandas/{tandaId}/tipos/{tiporecorridoId}/horarios")]

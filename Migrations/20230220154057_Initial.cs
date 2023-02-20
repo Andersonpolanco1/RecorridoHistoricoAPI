@@ -81,7 +81,6 @@ namespace EdecanesV2.Migrations
                     Dia = table.Column<int>(type: "int", nullable: false),
                     Hora = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TandaId = table.Column<int>(type: "int", nullable: false),
-                    TipoRecorridoId = table.Column<int>(type: "int", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -93,9 +92,27 @@ namespace EdecanesV2.Migrations
                         principalTable: "Tandas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HorarioTipo",
+                columns: table => new
+                {
+                    HorariosId = table.Column<int>(type: "int", nullable: false),
+                    TiposRecorridoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HorarioTipo", x => new { x.HorariosId, x.TiposRecorridoId });
                     table.ForeignKey(
-                        name: "FK_Horarios_Tipos_TipoRecorridoId",
-                        column: x => x.TipoRecorridoId,
+                        name: "FK_HorarioTipo_Horarios_HorariosId",
+                        column: x => x.HorariosId,
+                        principalTable: "Horarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HorarioTipo_Tipos_TiposRecorridoId",
+                        column: x => x.TiposRecorridoId,
                         principalTable: "Tipos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -120,6 +137,8 @@ namespace EdecanesV2.Migrations
                     FechaCulminacion = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EstadoId = table.Column<int>(type: "int", nullable: false),
                     TipoRecorridoHistoricoId = table.Column<int>(type: "int", nullable: false),
+                    HorarioId = table.Column<int>(type: "int", nullable: false),
+                    TipoRecorridoId = table.Column<int>(type: "int", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -132,8 +151,14 @@ namespace EdecanesV2.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RecorridosHistorico_Tipos_TipoRecorridoHistoricoId",
-                        column: x => x.TipoRecorridoHistoricoId,
+                        name: "FK_RecorridosHistorico_Horarios_HorarioId",
+                        column: x => x.HorarioId,
+                        principalTable: "Horarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RecorridosHistorico_Tipos_TipoRecorridoId",
+                        column: x => x.TipoRecorridoId,
                         principalTable: "Tipos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -145,9 +170,9 @@ namespace EdecanesV2.Migrations
                 column: "TandaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Horarios_TipoRecorridoId",
-                table: "Horarios",
-                column: "TipoRecorridoId");
+                name: "IX_HorarioTipo_TiposRecorridoId",
+                table: "HorarioTipo",
+                column: "TiposRecorridoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecorridosHistorico_EstadoId",
@@ -155,9 +180,14 @@ namespace EdecanesV2.Migrations
                 column: "EstadoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecorridosHistorico_TipoRecorridoHistoricoId",
+                name: "IX_RecorridosHistorico_HorarioId",
                 table: "RecorridosHistorico",
-                column: "TipoRecorridoHistoricoId");
+                column: "HorarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecorridosHistorico_TipoRecorridoId",
+                table: "RecorridosHistorico",
+                column: "TipoRecorridoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -166,19 +196,22 @@ namespace EdecanesV2.Migrations
                 name: "FechasManuales");
 
             migrationBuilder.DropTable(
-                name: "Horarios");
+                name: "HorarioTipo");
 
             migrationBuilder.DropTable(
                 name: "RecorridosHistorico");
 
             migrationBuilder.DropTable(
-                name: "Tandas");
-
-            migrationBuilder.DropTable(
                 name: "Estados");
 
             migrationBuilder.DropTable(
+                name: "Horarios");
+
+            migrationBuilder.DropTable(
                 name: "Tipos");
+
+            migrationBuilder.DropTable(
+                name: "Tandas");
         }
     }
 }

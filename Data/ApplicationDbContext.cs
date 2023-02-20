@@ -21,7 +21,7 @@ namespace EdecanesV2.Data
 
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<FechaManual> FechasManuales { get; set; }
-        public virtual DbSet<RecorridoHistorico> RecorridosHistorico { get; set; }
+        public virtual DbSet<RecorridoHistorico> RecorridosHistoricos { get; set; }
         public virtual DbSet<Tipo> Tipos { get; set; }
         public virtual DbSet<Horario> Horarios { get; set; }
         public virtual DbSet<Tanda> Tandas { get; set; }

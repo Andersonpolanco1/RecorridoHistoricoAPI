@@ -6,14 +6,11 @@ namespace EdecanesV2.Repositories.Abstract
     {
         Task<IEnumerable<Horario>> GetAllAsync();
         Task<Horario> GetByIdAsync(int horarioId);
-        Task<IEnumerable<Horario>> GetHorariosByTipoRecorridoIdAsync(int id);
         Task<Horario> CreateAsync(Horario horarioRecorrido);
         Task<Horario> EditAsync(Horario horarioRecorrido);
         Task DeleteAsync(int horarioId);
         bool EsTandaValida(int tandaId);
         Task<IEnumerable<Horario>> GetHorariosByTipoRecorrido(int tandaId, int tipoRecorridoId);
-        Task<Tipo?> GetTipoRecorridoDeHorario(int horarioId);
-
         void RestoreDeleted(int id);
         IEnumerable<Horario> Deleted();
         Horario? GetDeleted(int id);

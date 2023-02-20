@@ -11,10 +11,12 @@ namespace EdecanesV2.Repositories.Abstract
         Task<Tipo> EditAsync(Tipo tipoRecorrido);
         Task DeleteAsync(int id);
         bool TipoRecorridoExists(int id);
-
+        void AddHorario(int tipoId, int horarioId);
+        void RemoveHorario(int tipoId, int horarioId);
         void RestoreDeleted(int id);
         IEnumerable<Tipo> Deleted();
         Tipo? GetDeleted(int id);
+        IEnumerable<Horario> GetHorarios(int tipoId);
 
     }
 }

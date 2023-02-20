@@ -21,10 +21,10 @@ namespace EdecanesV2.Models
 
         public int TandaId { get; set; }
 
-        public int TipoRecorridoId { get; set; }
-
         public Tanda? Tanda { get; set; }
-        public Tipo? TipoRecorrido { get; set; }
+
+        public List<Tipo> TiposRecorrido { get; set; } = new List<Tipo>();
+
 
         public string Descripcion()
         {

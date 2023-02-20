@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EdecanesV2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230217134456_Initial")]
+    [Migration("20230220154057_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,14 +96,9 @@ namespace EdecanesV2.Migrations
                     b.Property<int>("TandaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoRecorridoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TandaId");
-
-                    b.HasIndex("TipoRecorridoId");
 
                     b.ToTable("Horarios");
                 });
@@ -147,6 +142,9 @@ namespace EdecanesV2.Migrations
                     b.Property<DateTime>("FechaVisita")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("HorarioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Idioma")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -166,11 +164,16 @@ namespace EdecanesV2.Migrations
                     b.Property<int>("TipoRecorridoHistoricoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TipoRecorridoId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
 
-                    b.HasIndex("TipoRecorridoHistoricoId");
+                    b.HasIndex("HorarioId");
+
+                    b.HasIndex("TipoRecorridoId");
 
                     b.ToTable("RecorridosHistorico");
                 });
@@ -232,6 +235,21 @@ namespace EdecanesV2.Migrations
                     b.ToTable("Tipos");
                 });
 
+            modelBuilder.Entity("HorarioTipo", b =>
+                {
+                    b.Property<int>("HorariosId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TiposRecorridoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("HorariosId", "TiposRecorridoId");
+
+                    b.HasIndex("TiposRecorridoId");
+
+                    b.ToTable("HorarioTipo");
+                });
+
             modelBuilder.Entity("EdecanesV2.Models.Horario", b =>
                 {
                     b.HasOne("EdecanesV2.Models.Tanda", "Tanda")
@@ -240,15 +258,7 @@ namespace EdecanesV2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EdecanesV2.Models.Tipo", "TipoRecorrido")
-                        .WithMany()
-                        .HasForeignKey("TipoRecorridoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Tanda");
-
-                    b.Navigation("TipoRecorrido");
                 });
 
             modelBuilder.Entity("EdecanesV2.Models.RecorridoHistorico", b =>
@@ -259,15 +269,38 @@ namespace EdecanesV2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EdecanesV2.Models.Tipo", "TipoRecorridoHistorico")
+                    b.HasOne("EdecanesV2.Models.Horario", "Horario")
                         .WithMany()
-                        .HasForeignKey("TipoRecorridoHistoricoId")
+                        .HasForeignKey("HorarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EdecanesV2.Models.Tipo", "TipoRecorrido")
+                        .WithMany()
+                        .HasForeignKey("TipoRecorridoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Estado");
 
-                    b.Navigation("TipoRecorridoHistorico");
+                    b.Navigation("Horario");
+
+                    b.Navigation("TipoRecorrido");
+                });
+
+            modelBuilder.Entity("HorarioTipo", b =>
+                {
+                    b.HasOne("EdecanesV2.Models.Horario", null)
+                        .WithMany()
+                        .HasForeignKey("HorariosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EdecanesV2.Models.Tipo", null)
+                        .WithMany()
+                        .HasForeignKey("TiposRecorridoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

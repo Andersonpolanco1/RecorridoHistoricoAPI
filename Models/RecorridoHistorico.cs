@@ -30,11 +30,11 @@ namespace EdecanesV2.Models
         public DateTime? FechaCulminacion { get; set; }
 
         public int EstadoId { get; set; }
-
         public int TipoRecorridoHistoricoId { get; set; }
+        public int HorarioId { get; set; }
 
-
+        public Tipo? TipoRecorrido { get; set; }
         public Estado? Estado { get; set; }
-        public Tipo? TipoRecorridoHistorico { get; set; }
+        public Horario? Horario { get; set; }
     }
 }
