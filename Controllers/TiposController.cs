@@ -135,5 +135,41 @@ namespace EdecanesV2.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        // POST: api/Tipos/5
+        [HttpPost("restoredeleted/{id}")]
+        public IActionResult RestoreDeleted(int id)
+        {
+            try
+            {
+                _tiposRepository.RestoreDeleted(id);
+                return Ok("Restored");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Tipos/5
+        [HttpGet("deleted")]
+        public IActionResult Deleted()
+        {
+            return Ok(_tiposRepository.Deleted());
+        }
+
+        // GET: api/Tipos/deleted/5
+        [HttpGet("deleted/{id}")]
+        public IActionResult Deleted(int id)
+        {
+            var tipo = _tiposRepository.GetDeleted(id);
+
+            if (tipo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tipo);
+        }
     }
 }

@@ -2,6 +2,7 @@
 using EdecanesV2.Models;
 using EdecanesV2.Models.DTOs.Horario;
 using EdecanesV2.Repositories.Abstract;
+using EdecanesV2.Repositories.Impl;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -140,6 +141,44 @@ namespace EdecanesV2.Controllers
             var horarios = await _horariosRepository.GetHorariosByTipoRecorrido(tandaId, tiporecorridoId);
             return Ok(_mapper.Map<IEnumerable<HorarioDto>>(horarios));
 
+        }
+
+
+
+        // POST: api/horarios/5
+        [HttpPost("restoredeleted/{id}")]
+        public IActionResult RestoreDeleted(int id)
+        {
+            try
+            {
+                _horariosRepository.RestoreDeleted(id);
+                return Ok("Restored");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/horarios/5
+        [HttpGet("deleted")]
+        public IActionResult Deleted()
+        {
+            return Ok(_horariosRepository.Deleted());
+        }
+
+        // GET: api/horarios/deleted/5
+        [HttpGet("deleted/{id}")]
+        public IActionResult Deleted(int id)
+        {
+            var horario = _horariosRepository.GetDeleted(id);
+
+            if (horario == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(horario);
         }
     }
 }

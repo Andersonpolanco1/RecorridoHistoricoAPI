@@ -1,6 +1,7 @@
 ﻿using EdecanesV2.Extensions;
 using EdecanesV2.Maps;
 using EdecanesV2.Models;
+using EdecanesV2.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 

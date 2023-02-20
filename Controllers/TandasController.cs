@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EdecanesV2.Data;
 using EdecanesV2.Models;
+using EdecanesV2.Extensions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EdecanesV2.Controllers
 {
@@ -96,6 +98,43 @@ namespace EdecanesV2.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // POST: api/Tandas/5
+        [HttpPost("restoredeleted/{id}")]
+        public IActionResult RestoreDeleted(int id)
+        {
+            try
+            {
+                _context.Tandas.RestoreDeleted(id);
+                _context.SaveChanges();
+                return Ok("Restored");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Tandas/5
+        [HttpGet("deleted")]
+        public IActionResult Deleted()
+        {
+            return Ok(_context.Tandas.IgnoreQueryFilters().Where(t => t.DeletedAt.HasValue).ToList());
+        }
+
+        // GET: api/Tandas/deleted/5
+        [HttpGet("deleted/{id}")]
+        public IActionResult Deleted(int id)
+        {
+            var tanda =  _context.Tandas.IgnoreQueryFilters().FirstOrDefault(t => t.Id == id);
+
+            if (tanda == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tanda);
         }
 
         private bool TandaExists(int id)

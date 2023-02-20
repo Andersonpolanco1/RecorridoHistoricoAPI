@@ -1,4 +1,5 @@
 ﻿using EdecanesV2.Data;
+using EdecanesV2.Extensions;
 using EdecanesV2.Models;
 using EdecanesV2.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
@@ -124,6 +125,29 @@ namespace EdecanesV2.Repositories.Impl
                  .Include(h => h.TipoRecorrido)
                  .Where(h => h.TandaId == tandaId && h.TipoRecorridoId == tipoRecorridoId)
                  .ToListAsync();
+        }
+
+        public void RestoreDeleted(int id)
+        {
+            try
+            {
+                _context.Horarios.RestoreDeleted(id);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<Horario> Deleted()
+        {
+            return _context.Horarios.IgnoreQueryFilters().Where(t => t.DeletedAt.HasValue).ToList();
+        }
+
+        public Horario? GetDeleted(int id)
+        {
+            return _context.Horarios.IgnoreQueryFilters().FirstOrDefault(t => t.Id == id && t.DeletedAt.HasValue);
         }
     }
 }

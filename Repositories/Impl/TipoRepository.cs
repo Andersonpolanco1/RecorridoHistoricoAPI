@@ -1,6 +1,8 @@
 ﻿using EdecanesV2.Data;
+using EdecanesV2.Extensions;
 using EdecanesV2.Models;
 using EdecanesV2.Repositories.Abstract;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EdecanesV2.Repositories.Impl
@@ -67,6 +69,30 @@ namespace EdecanesV2.Repositories.Impl
         public bool TipoRecorridoExists(int id)
         {
             return _context.Tipos.Any(e => e.Id == id);
+        }
+
+
+        public void RestoreDeleted(int id)
+        {
+            try
+            {
+                _context.Tipos.RestoreDeleted(id);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<Tipo> Deleted()
+        {
+            return _context.Tipos.IgnoreQueryFilters().Where(t => t.DeletedAt.HasValue).ToList();
+        }
+
+        public Tipo? GetDeleted(int id)
+        {
+            return _context.Tipos.IgnoreQueryFilters().FirstOrDefault(t => t.Id == id && t.DeletedAt.HasValue);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EdecanesV2.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EdecanesV2.Repositories.Abstract
 {
@@ -10,5 +11,10 @@ namespace EdecanesV2.Repositories.Abstract
         Task<Tipo> EditAsync(Tipo tipoRecorrido);
         Task DeleteAsync(int id);
         bool TipoRecorridoExists(int id);
+
+        void RestoreDeleted(int id);
+        IEnumerable<Tipo> Deleted();
+        Tipo? GetDeleted(int id);
+
     }
 }

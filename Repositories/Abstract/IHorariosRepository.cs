@@ -13,5 +13,9 @@ namespace EdecanesV2.Repositories.Abstract
         bool EsTandaValida(int tandaId);
         Task<IEnumerable<Horario>> GetHorariosByTipoRecorrido(int tandaId, int tipoRecorridoId);
         Task<Tipo?> GetTipoRecorridoDeHorario(int horarioId);
+
+        void RestoreDeleted(int id);
+        IEnumerable<Horario> Deleted();
+        Horario? GetDeleted(int id);
     }
 }
