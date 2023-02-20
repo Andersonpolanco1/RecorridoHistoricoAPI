@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EdecanesV2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230220154057_Initial")]
+    [Migration("20230220194532_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,8 @@ namespace EdecanesV2.Migrations
 
                     b.Property<string>("Comentario")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -113,7 +114,8 @@ namespace EdecanesV2.Migrations
 
                     b.Property<string>("Apellidos")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("CantidadVisitantes")
                         .HasColumnType("int");
@@ -140,29 +142,29 @@ namespace EdecanesV2.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaVisita")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
                     b.Property<int>("HorarioId")
                         .HasColumnType("int");
 
                     b.Property<string>("Idioma")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Institucion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
 
                     b.Property<string>("Nombres")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TipoRecorridoHistoricoId")
-                        .HasColumnType("int");
 
                     b.Property<int>("TipoRecorridoId")
                         .HasColumnType("int");
@@ -192,7 +194,8 @@ namespace EdecanesV2.Migrations
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -211,8 +214,8 @@ namespace EdecanesV2.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Color")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2")
@@ -227,8 +230,8 @@ namespace EdecanesV2.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 

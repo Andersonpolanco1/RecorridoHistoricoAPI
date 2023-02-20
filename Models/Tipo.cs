@@ -7,12 +7,12 @@ namespace EdecanesV2.Models
     [Table("Tipos")]
     public class Tipo : EntityBase
     {
-        [MaxLength(50)]
+        [StringLength(100, ErrorMessage = "La cantidad de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public string Nombre { get; set; } = string.Empty;
 
         public bool EsFlexible { get; set; }
 
-        [MaxLength(10)]
+        [StringLength(50, ErrorMessage = "La cantidad de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public string? Color { get; set; }
 
         public int CantidadMaxima { get; set; }

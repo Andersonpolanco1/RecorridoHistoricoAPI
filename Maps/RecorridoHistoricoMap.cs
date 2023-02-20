@@ -10,6 +10,7 @@ namespace EdecanesV2.Maps
         public override void Configure(EntityTypeBuilder<RecorridoHistorico> builder)
         {
             base.Configure(builder);
+
         }
     }
 }

@@ -32,7 +32,7 @@ namespace EdecanesV2.Migrations
                     Fecha = table.Column<DateTime>(type: "Date", nullable: false),
                     EsRecurrente = table.Column<bool>(type: "bit", nullable: false),
                     FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Comentario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comentario = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -46,7 +46,7 @@ namespace EdecanesV2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -60,9 +60,9 @@ namespace EdecanesV2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     EsFlexible = table.Column<bool>(type: "bit", nullable: false),
-                    Color = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Color = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CantidadMaxima = table.Column<int>(type: "int", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -124,21 +124,20 @@ namespace EdecanesV2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombres = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nombres = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Apellidos = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cedula = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefono = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CantidadVisitantes = table.Column<int>(type: "int", nullable: false),
-                    FechaVisita = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Institucion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Idioma = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaVisita = table.Column<DateTime>(type: "Date", nullable: false),
+                    Institucion = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    Idioma = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaCulminacion = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EstadoId = table.Column<int>(type: "int", nullable: false),
-                    TipoRecorridoHistoricoId = table.Column<int>(type: "int", nullable: false),
-                    HorarioId = table.Column<int>(type: "int", nullable: false),
                     TipoRecorridoId = table.Column<int>(type: "int", nullable: false),
+                    HorarioId = table.Column<int>(type: "int", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>

@@ -32,9 +32,43 @@ namespace EdecanesV2.Repositories.Impl
             return await _context.RecorridosHistoricos.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public Task<RecorridoHistorico> CreateAsync(RecorridoHistorico recorridoHistorico)
+        public async Task<RecorridoHistorico> CreateAsync(RecorridoHistorico recorridoHistorico)
         {
-            throw new NotImplementedException();
+            if (recorridoHistorico == null)
+                throw new ArgumentNullException(nameof(recorridoHistorico));
+
+            var tipoRecorridoDb = _context.Tipos
+                .AsNoTracking()
+                .Include(t => t.Horarios)
+                .FirstOrDefault(t => t.Id == recorridoHistorico.TipoRecorridoId);
+
+            if (tipoRecorridoDb == null || !tipoRecorridoDb.Horarios.Any(h => h.Id == recorridoHistorico.HorarioId))
+                throw new Exception("Tipo de recorrido u horario no valido");
+
+            if (!tipoRecorridoDb.EsFlexible && FechaVisitaEstaDisponible(recorridoHistorico.FechaVisita))
+                throw new Exception("Fecha o tanda no esta disponible.");
+
+            recorridoHistorico.EstadoId = 1;
+            recorridoHistorico.FechaCreacion = DateTime.Now;
+            _context.RecorridosHistoricos.Add(recorridoHistorico);
+
+            const int affectedRows = 0;
+            bool success = _context.SaveChanges() > affectedRows;
+
+            if (!success)
+                throw new Exception("Ocurrio un error al momento de guardar el recorrido historico");
+
+            await _emailService.SendEmailRecorridoCreadoAsync(recorridoHistorico);
+            return recorridoHistorico;
+
+
+        }
+
+        private bool FechaVisitaEstaDisponible(DateTime fechaVisita)
+        {
+
+            //TODO
+            return true;
         }
 
         public Task<RecorridoHistorico> EditAsync(RecorridoHistorico recorridoHistorico)
