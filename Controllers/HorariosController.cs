@@ -95,6 +95,15 @@ namespace EdecanesV2.Controllers
                     return BadRequest();
 
                 _mapper.Map(horarioRecorrido, horarioDb);
+
+                if(horarioRecorrido.Hora is not null)
+                {
+                    if (TimeSpan.TryParse(horarioRecorrido.Hora, out var horaTimeSpan))
+                        horarioDb.Hora = DateTime.Today.Add(horaTimeSpan).ToString("hh:mm tt").ToUpper();
+                    else
+                        return BadRequest("Hora no válida.");
+                }
+
                 var horario = await _horariosRepository.EditAsync(horarioDb);
                 return Ok(_mapper.Map<HorarioDto>(horario));
             }
