@@ -53,8 +53,5 @@ namespace EdecanesV2.Repositories.Impl
                 .Where(r => r.FechaVisita >= DateTime.Now).ToList();
         }
 
-        private void 
-
-
     }
 }

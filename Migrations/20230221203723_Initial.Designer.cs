@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EdecanesV2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230221141405_Initial")]
+    [Migration("20230221203723_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
