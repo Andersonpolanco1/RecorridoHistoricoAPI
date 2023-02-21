@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EdecanesV2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230220194532_Initial")]
+    [Migration("20230221141405_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,7 @@ namespace EdecanesV2.Migrations
                         .HasColumnName("deleted_at");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

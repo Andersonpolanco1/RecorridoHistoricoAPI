@@ -10,7 +10,7 @@ using EdecanesV2.Models;
 using AutoMapper;
 using EdecanesV2.Models.DTOs.TipoRecorrido;
 using EdecanesV2.Repositories.Abstract;
-using EdecanesV2.Models.DTOs.Horario;
+using EdecanesV2.Models.DTOs.Horarios;
 
 namespace EdecanesV2.Controllers
 {

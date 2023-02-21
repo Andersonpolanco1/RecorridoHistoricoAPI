@@ -10,6 +10,9 @@ namespace EdecanesV2.Models
         [StringLength(100, ErrorMessage = "La cantidad de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public string Nombre { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Esta propiedad en true significa que este tipo de recorrido es flexible con la disponibilidad, permite varias solicitudes el mismo día y hora.
+        /// </summary>
         public bool EsFlexible { get; set; }
 
         [StringLength(50, ErrorMessage = "La cantidad de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]

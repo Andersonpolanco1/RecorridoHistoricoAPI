@@ -6,6 +6,10 @@ using EdecanesV2.Services.Abstract;
 using EdecanesV2.Extensions;
 using EdecanesV2.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.VisualBasic;
+using EdecanesV2.Utils;
+using static EdecanesV2.Models.Horario;
 
 namespace EdecanesV2.Repositories.Impl
 {
@@ -42,13 +46,13 @@ namespace EdecanesV2.Repositories.Impl
                 .Include(t => t.Horarios)
                 .FirstOrDefault(t => t.Id == recorridoHistorico.TipoRecorridoId);
 
-            if (tipoRecorridoDb == null || !tipoRecorridoDb.Horarios.Any(h => h.Id == recorridoHistorico.HorarioId))
-                throw new Exception("Tipo de recorrido u horario no valido");
+            ValidarHorario(tipoRecorridoDb, recorridoHistorico);
 
-            if (!tipoRecorridoDb.EsFlexible && FechaVisitaEstaDisponible(recorridoHistorico.FechaVisita))
-                throw new Exception("Fecha o tanda no esta disponible.");
+            if ((!tipoRecorridoDb.EsFlexible) && !FechaVisitaEstaDisponible(recorridoHistorico))
+                throw new Exception($"Horario no disponible.");
 
-            recorridoHistorico.EstadoId = 1;
+            const int creado = 1;
+            recorridoHistorico.EstadoId = creado;
             recorridoHistorico.FechaCreacion = DateTime.Now;
             _context.RecorridosHistoricos.Add(recorridoHistorico);
 
@@ -60,15 +64,40 @@ namespace EdecanesV2.Repositories.Impl
 
             await _emailService.SendEmailRecorridoCreadoAsync(recorridoHistorico);
             return recorridoHistorico;
+        }
 
+        private void ValidarHorario(Tipo? tipoRecorridoDb, RecorridoHistorico newRecorrido)
+        {
+            if (tipoRecorridoDb == null)
+                throw new Exception("Tipo de recorrido no valido");
+
+            if (!tipoRecorridoDb.Horarios.Any(h => h.Id == newRecorrido.HorarioId))
+                throw new Exception($"Tipo de recorrido {tipoRecorridoDb.Descripcion} no tiene asignado el horario seleccionado.");
+
+
+            var dia = DateAndTimeUtils.ToEnumDiaSemana(newRecorrido.FechaVisita);
+
+            if (!tipoRecorridoDb.Horarios.Any(h => h.Dia == dia))
+                throw new Exception("Tipo de recorrido u horario no valido");
+
+            if (!tipoRecorridoDb.Horarios.Any(h => h.Id == newRecorrido.HorarioId))
+                throw new Exception($"Tipo de recorrido {tipoRecorridoDb.Descripcion} no disponible el dia {dia}.");
 
         }
 
-        private bool FechaVisitaEstaDisponible(DateTime fechaVisita)
+        private bool FechaVisitaEstaDisponible(RecorridoHistorico recorrido)
         {
+            var recorridosProgramados = GetRecorridosProgramados(recorrido.FechaVisita);
 
-            //TODO
-            return true;
+            return !recorridosProgramados.Any(rp => rp.HorarioId == recorrido.HorarioId);
+        }
+
+        private List<RecorridoHistorico> GetRecorridosProgramados(DateTime fechaVisita)
+        {
+            return _context.RecorridosHistoricos.AsNoTracking()
+                .Include(r => r.Horario)
+                .Include(r => r.TipoRecorrido)
+                .Where(r => r.FechaVisita == fechaVisita).ToList();
         }
 
         public Task<RecorridoHistorico> EditAsync(RecorridoHistorico recorridoHistorico)

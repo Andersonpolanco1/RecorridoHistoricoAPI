@@ -8,7 +8,8 @@ namespace EdecanesV2.Profiles
     {
         public RecorridoHistoricoProfile()
         {
-            CreateMap<RecorridoCreateDto, RecorridoHistorico>();
+            CreateMap<RecorridoCreateDto, RecorridoHistorico>(); 
+            CreateMap<RecorridoHistorico, RecorridoReadDto>(); 
         }
     }
 }

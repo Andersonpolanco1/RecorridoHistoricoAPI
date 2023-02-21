@@ -22,12 +22,13 @@ namespace EdecanesV2.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RecorridoHistorico>>> GetAll()
         {
-            return Ok(await _recorridosRepository.GetAllAsync());
+            var recorridos = await _recorridosRepository.GetAllAsync();
+            return Ok(_mapper.Map<IEnumerable<RecorridoReadDto>>(recorridos));
         }
 
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<RecorridoHistorico>>> Create([FromBody] RecorridoCreateDto recorridoDto)
+        public async Task<ActionResult<RecorridoReadDto>> Create([FromBody] RecorridoCreateDto recorridoDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -36,7 +37,27 @@ namespace EdecanesV2.Controllers
             {
                 var recorrido = _mapper.Map<RecorridoHistorico>(recorridoDto);
                 await _recorridosRepository.CreateAsync(recorrido);
-                return Ok(recorrido);
+
+                return CreatedAtAction("GetById", new {recorrido.Id},  _mapper.Map<RecorridoReadDto>(recorrido));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RecorridoHistorico>> GetById(int id)
+        {
+            try
+            {
+                var recorrido = await _recorridosRepository.GetByIdAsync(id);
+                
+                if (recorrido == null)
+                    return NotFound();
+
+                return Ok(_mapper.Map<RecorridoReadDto>(recorrido));
             }
             catch (Exception ex)
             {

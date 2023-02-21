@@ -1,4 +1,4 @@
-﻿namespace EdecanesV2.Models.DTOs.Horario
+﻿namespace EdecanesV2.Models.DTOs.Horarios
 {
     public class HorarioDto : HorarioCreateDto
     {

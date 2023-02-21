@@ -35,6 +35,7 @@ namespace EdecanesV2.Migrations
                         .HasColumnName("deleted_at");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

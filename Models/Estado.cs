@@ -6,7 +6,7 @@ namespace EdecanesV2.Models
     [Table("Estados")]
     public class Estado : EntityBase
     {
-        public string? Nombre { get; set; }
+        public string Nombre { get; set; }
     }
 }
 

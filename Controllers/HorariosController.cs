@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.Horario;
+using EdecanesV2.Models.DTOs.Horarios;
 using EdecanesV2.Repositories.Abstract;
 using EdecanesV2.Repositories.Impl;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace EdecanesV2.Controllers
 {
@@ -60,6 +61,11 @@ namespace EdecanesV2.Controllers
 
             try
             {
+                if (TimeSpan.TryParse(horarioRecorrido.Hora, out var horaTimeSpan))
+                    horarioRecorrido.Hora = DateTime.Today.Add(horaTimeSpan).ToString("hh:mm tt").ToUpper();
+                else
+                    return BadRequest("Hora no válida.");
+
                 var horario = _mapper.Map<Horario>(horarioRecorrido);
                 await _horariosRepository.CreateAsync(horario);
                 return CreatedAtRoute(nameof(GetAsync), new { id = horario.Id }, _mapper.Map<HorarioDto>(horario));

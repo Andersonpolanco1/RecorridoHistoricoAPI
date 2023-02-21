@@ -1,4 +1,5 @@
 ﻿using EdecanesV2.Models.Base;
+using NuGet.Packaging.Signing;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
@@ -16,8 +17,7 @@ namespace EdecanesV2.Models
 
 
         [Required]
-        [DataType(DataType.Time)]
-        public string Hora { get; set; } = string.Empty;
+        public string Hora { get; set; } 
 
         public int TandaId { get; set; }
 
