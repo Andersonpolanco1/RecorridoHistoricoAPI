@@ -2,9 +2,7 @@
 using EdecanesV2.Models.DTOs.FechasManuales;
 using EdecanesV2.Models;
 using EdecanesV2.Repositories.Abstract;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using EdecanesV2.Repositories.Impl;
 
 namespace EdecanesV2.Controllers
 {
