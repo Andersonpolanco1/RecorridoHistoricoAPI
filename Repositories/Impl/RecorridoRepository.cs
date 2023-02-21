@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.VisualBasic;
 using EdecanesV2.Utils;
 using static EdecanesV2.Models.Horario;
+using EdecanesV2.Services;
+using System.Reflection.Metadata;
 
 namespace EdecanesV2.Repositories.Impl
 {
@@ -100,9 +102,56 @@ namespace EdecanesV2.Repositories.Impl
                 .Where(r => r.FechaVisita == fechaVisita).ToList();
         }
 
-        public Task<RecorridoHistorico> EditAsync(RecorridoHistorico recorridoHistorico)
+        public async Task<RecorridoHistorico> EditAsync(RecorridoHistorico recorridoHistorico)
         {
-            throw new NotImplementedException();
+            if (recorridoHistorico == null)
+                throw new ArgumentNullException(nameof(recorridoHistorico));
+
+            var tipoRecorridoDb = _context.Tipos
+                .AsNoTracking()
+                .Include(t => t.Horarios)
+                .FirstOrDefault(t => t.Id == recorridoHistorico.TipoRecorridoId);
+
+            if(IsFechaTipoUHorarioModificado(recorridoHistorico))
+                ValidarHorario(tipoRecorridoDb, recorridoHistorico);
+
+            if ((!tipoRecorridoDb.EsFlexible) && !FechaVisitaEstaDisponible(recorridoHistorico))
+                throw new Exception($"Horario no disponible.");
+
+            const int completado = 2;
+
+            if (completado == recorridoHistorico.EstadoId)
+                recorridoHistorico.FechaCulminacion = DateTime.Now;
+
+            _context.RecorridosHistoricos.Update(recorridoHistorico);
+
+            const int affectedRows = 0;
+            bool success = _context.SaveChanges() > affectedRows;
+
+            if (!success)
+                throw new Exception("Ocurrio un error al momento de guardar el recorrido historico");
+
+            if (completado == recorridoHistorico.EstadoId)
+            {
+                await _emailService.SendEmailAsync(new MailRequest
+                {
+                    From = "danielcleto@presidencia.gob.do",
+                    To = recorridoHistorico.Correo,
+                    Subject = "Solicitud de Recorrido",
+                    Body = "Tu solicitudDto ha sido completada exitoxamente."
+                });
+            }
+
+            return recorridoHistorico;
+        }
+
+        private bool IsFechaTipoUHorarioModificado(RecorridoHistorico recorridoHistorico) 
+        {
+            return (
+                _context.Entry(recorridoHistorico).Property(u => u.HorarioId).IsModified ||
+                _context.Entry(recorridoHistorico).Property(u => u.TipoRecorridoId).IsModified ||
+                _context.Entry(recorridoHistorico).Property(u => u.FechaVisita).IsModified 
+                );
         }
 
         public Task DeleteAsync(int id)

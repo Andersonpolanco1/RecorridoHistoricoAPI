@@ -28,20 +28,5 @@ namespace EdecanesV2.Profiles
                 .ForAllMembers(opt =>
                 opt.Condition((src, dest, value) => value != null)); ;
         }
-
-        private static string ValidarHora(string hora)
-        {
-
-            if(TimeSpan.TryParse(hora, out var horaTimeSpan))
-            {
-                DateTime time = DateTime.Today.Add(horaTimeSpan);
-                return time.ToString("hh:mm tt");
-            }
-            else
-            {
-                throw new Exception("Hora no válida.");
-            }
-
-        }
     }
 }
