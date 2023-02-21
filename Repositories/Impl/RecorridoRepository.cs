@@ -154,9 +154,16 @@ namespace EdecanesV2.Repositories.Impl
                 );
         }
 
-        public Task DeleteAsync(int id)
+        public bool DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var recorrido = _context.RecorridosHistoricos.FirstOrDefault(r => r.Id == id);
+
+            if (recorrido is null)
+                throw new NullReferenceException("No se pudo eliminar");
+
+            _context.RecorridosHistoricos.Remove(recorrido);
+
+            return _context.SaveChanges() > 0;
         }
 
         public bool TipoRecorridoExists(int id)

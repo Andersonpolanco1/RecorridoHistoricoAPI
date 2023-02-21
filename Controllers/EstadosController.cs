@@ -95,7 +95,7 @@ namespace EdecanesV2.Controllers
             _context.Estados.Remove(estado);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("Deleted");
         }
 
         private bool EstadoExists(int id)

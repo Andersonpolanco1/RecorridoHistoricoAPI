@@ -2,6 +2,7 @@
 using EdecanesV2.Models;
 using EdecanesV2.Models.DTOs.RecorridoHistorico;
 using EdecanesV2.Repositories.Abstract;
+using EdecanesV2.Repositories.Impl;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EdecanesV2.Controllers
@@ -38,7 +39,7 @@ namespace EdecanesV2.Controllers
                 var recorrido = _mapper.Map<RecorridoHistorico>(recorridoDto);
                 await _recorridosRepository.CreateAsync(recorrido);
 
-                return CreatedAtAction("GetById", new {recorrido.Id},  _mapper.Map<RecorridoReadDto>(recorrido));
+                return CreatedAtAction("GetById", new { recorrido.Id }, _mapper.Map<RecorridoReadDto>(recorrido));
             }
             catch (Exception ex)
             {
@@ -53,7 +54,7 @@ namespace EdecanesV2.Controllers
             try
             {
                 var recorrido = await _recorridosRepository.GetByIdAsync(id);
-                
+
                 if (recorrido == null)
                     return NotFound();
 
@@ -70,7 +71,7 @@ namespace EdecanesV2.Controllers
         {
             try
             {
-                var recorrido =  await _recorridosRepository.GetByIdAsync(recorridoUpdate.Id);
+                var recorrido = await _recorridosRepository.GetByIdAsync(recorridoUpdate.Id);
 
                 if (recorrido == null)
                     return NotFound();
@@ -84,6 +85,59 @@ namespace EdecanesV2.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<RecorridoReadDto> Delete(int id)
+        {
+            try
+            {
+                var success =  _recorridosRepository.DeleteAsync(id);
+
+                if (!success)
+                    return BadRequest();
+
+                return Ok("Deleted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("restoredeleted/{id}")]
+        public IActionResult RestoreDeleted(int id)
+        {
+            try
+            {
+                _recorridosRepository.RestoreDeleted(id);
+                return Ok("Restored");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("deleted")]
+        public IActionResult Deleted()
+        {
+            var recorridosEliminados = _recorridosRepository.Deleted();
+
+            return Ok(_mapper.Map<IEnumerable<RecorridoReadDto>>(recorridosEliminados));
+        }
+
+        [HttpGet("deleted/{id}")]
+        public IActionResult Deleted(int id)
+        {
+            var recorridoEliminado = _recorridosRepository.GetDeleted(id);
+
+            if (recorridoEliminado == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<RecorridoReadDto>(recorridoEliminado));
         }
     }
 }

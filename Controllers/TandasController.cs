@@ -97,7 +97,7 @@ namespace EdecanesV2.Controllers
             _context.Tandas.Remove(tanda);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("Deleted");
         }
 
         // POST: api/Tandas/5

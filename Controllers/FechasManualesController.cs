@@ -99,7 +99,7 @@ namespace EdecanesV2.Controllers
             try
             {
                 await _fechasManualesRepository.DeleteAsync(id);
-                return Ok();
+                return Ok("Deleted");
             }
             catch (NullReferenceException ex)
             {

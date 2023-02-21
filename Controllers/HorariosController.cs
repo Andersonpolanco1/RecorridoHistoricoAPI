@@ -114,7 +114,7 @@ namespace EdecanesV2.Controllers
             try
             {
                 await _horariosRepository.DeleteAsync(horarioId);
-                return Ok();
+                return Ok("Deleted");
             }
             catch (NullReferenceException ex)
             {

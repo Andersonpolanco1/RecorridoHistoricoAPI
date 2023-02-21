@@ -8,7 +8,7 @@ namespace EdecanesV2.Repositories.Abstract
         Task<RecorridoHistorico?> GetByIdAsync(int id);
         Task<RecorridoHistorico> CreateAsync(RecorridoHistorico recorridoHistorico);
         Task<RecorridoHistorico> EditAsync(RecorridoHistorico recorridoHistorico);
-        Task DeleteAsync(int id);
+        bool DeleteAsync(int id);
         bool TipoRecorridoExists(int id);
 
         void RestoreDeleted(int id);
