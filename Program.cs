@@ -25,6 +25,7 @@ builder.Services.AddScoped<ITiposRepository, TipoRepository>();
 builder.Services.AddScoped<IHorariosRepository, HorariosRepository>();
 builder.Services.AddScoped<IFechasManualesRepository, FechasManualesRepository>();
 builder.Services.AddScoped<IRecorridosRepository, RecorridoRepository>();
+builder.Services.AddScoped<IDisponibilidadesRepository, DisponibilidadesRepository>();
 
 var app = builder.Build();
 

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using EdecanesV2.Models.DTOs.Horarios;
+using EdecanesV2.Repositories.Abstract;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EdecanesV2.Controllers
@@ -7,5 +10,33 @@ namespace EdecanesV2.Controllers
     [ApiController]
     public class DisponibilidadesController : ControllerBase
     {
+        private readonly IDisponibilidadesRepository _disponibilidades;
+        private readonly IMapper _mapper;
+
+        public DisponibilidadesController(IDisponibilidadesRepository disponibilidades, IMapper mapper)
+        {
+            _disponibilidades = disponibilidades;
+            _mapper = mapper;
+        }
+
+        [HttpGet("FechasNoDisponibles")]
+        public ActionResult FechasNoDisponibles()
+        {
+            return Ok(_disponibilidades.FechasNoDisponibles());
+        }
+
+        [HttpGet("horariosDisponibles")]
+        public ActionResult HorariosDisponibles(DateTime fecha)
+        {
+            var horarios = _disponibilidades.HorariosDisponibles(fecha);
+            return Ok(_mapper.Map<IEnumerable<HorarioDto>>(horarios));
+        }
+
+        [HttpGet("TiposRecorridoDisponibles")]
+        public ActionResult TiposRecorridoDisponibles(DateTime fecha)
+        {
+            var tipos = _disponibilidades.TiposRecorridoDisponibles(fecha);
+            return Ok(tipos);
+        }
     }
 }

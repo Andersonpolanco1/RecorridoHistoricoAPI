@@ -49,7 +49,7 @@ namespace EdecanesV2.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<RecorridoReadDto>> GetById(int id)
+        public async Task<ActionResult<RecorridoHistoricoDetailsDto>> GetById(int id)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace EdecanesV2.Controllers
                 if (recorrido == null)
                     return NotFound();
 
-                return Ok(_mapper.Map<RecorridoReadDto>(recorrido));
+                return Ok(_mapper.Map<RecorridoHistoricoDetailsDto>(recorrido));
             }
             catch (Exception ex)
             {

@@ -1,12 +1,15 @@
 ﻿using EdecanesV2.Data;
 using EdecanesV2.Models;
+using EdecanesV2.Models.DTOs.DisponibilidadesDto;
+using EdecanesV2.Models.DTOs.Horarios;
+using EdecanesV2.Repositories.Abstract;
 using EdecanesV2.Utils;
 using Microsoft.EntityFrameworkCore;
 using static EdecanesV2.Models.Horario;
 
 namespace EdecanesV2.Repositories.Impl
 {
-    public class DisponibilidadesRepository
+    public class DisponibilidadesRepository: IDisponibilidadesRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -20,7 +23,7 @@ namespace EdecanesV2.Repositories.Impl
             var recorridosProgramados = GetRecorridosProgramados();
 
 
-            var recorridosAgrup = (from recorrido in recorridosProgramados
+            var recorridosAgrupadosPorFechaVisita = (from recorrido in recorridosProgramados
                      group recorrido by  recorrido.FechaVisita into recorridos
                      select new
                      {
@@ -32,13 +35,15 @@ namespace EdecanesV2.Repositories.Impl
             var horariosPorDia = GetCantidadHorariosPorDiaSemana();
 
             List<string> fechasNoDisponibles = new();
+            DiaSemana diaDelRecorrido;
+            int cantHorarios;
 
-            foreach (var item in recorridosAgrup)
+            foreach (var item in recorridosAgrupadosPorFechaVisita)
             {
-                var dia = DateAndTimeUtils.ToEnumDiaSemana(item.Key);
-                var cantMax = horariosPorDia.FirstOrDefault(kvp => kvp.Key == dia).Value;
+                diaDelRecorrido = DateAndTimeUtils.ToEnumDiaSemana(item.Key);
+                cantHorarios = horariosPorDia.FirstOrDefault(kvp => kvp.Key == diaDelRecorrido).Value;
 
-                if(item.horarios >= cantMax)
+                if(item.horarios >= cantHorarios)
                     fechasNoDisponibles.Add(item.Key.ToShortDateString());
             }
 
@@ -70,9 +75,78 @@ namespace EdecanesV2.Repositories.Impl
         {
             return _context.RecorridosHistoricos.AsNoTracking()
                 .Include(r => r.Horario)
-                .Include(r => r.TipoRecorrido)
                 .Where(r => r.FechaVisita >= DateTime.Now).ToList();
         }
 
+        public IEnumerable<Horario> HorariosDisponibles(DateTime fecha)
+        {
+            if(fecha < DateTime.Now)
+                return new List<Horario>();
+
+            var recorridosProgramados = GetRecorridosProgramados(fecha);
+            var horariosDelDia = GetHorariosPorDiaSemana(DateAndTimeUtils.ToEnumDiaSemana(fecha)).ToList();
+
+            List<Horario> horariosDisponibles = new();
+
+            foreach (var horario in horariosDelDia)
+            {
+                if (!recorridosProgramados.Any(rp => rp.HorarioId == horario.Id))
+                    horariosDisponibles.Add(horario);
+            }
+
+            return horariosDisponibles;
+        }
+
+        private List<RecorridoHistorico> GetRecorridosProgramados(DateTime fecha)
+        {
+            return _context.RecorridosHistoricos.AsNoTracking()
+                .Include(r => r.Horario)
+                .Where(r => r.FechaVisita == fecha && r.FechaVisita >= DateTime.Now)
+                .ToList();
+        }
+
+        private IEnumerable<Horario> GetHorariosPorDiaSemana(DiaSemana dia)
+        {
+            return _context.Horarios.AsNoTracking().Where(h => h.Dia == dia).ToList();
+        }
+
+        public IEnumerable<HorariosTipoRecorridoDto> TiposRecorridoDisponibles(DateTime fecha)
+        {
+
+            if (fecha < DateTime.Now)
+                return new List<HorariosTipoRecorridoDto>();
+
+            var recorridosProgramados = GetRecorridosProgramados(fecha);
+            var tiposRecorridos = TiposRecorridoConHorario(fecha);
+
+            if(!recorridosProgramados.Any())
+                return tiposRecorridos;
+
+            List<HorariosTipoRecorridoDto> disponibles = new();
+
+            foreach (var tipo in tiposRecorridos)
+            {
+                if (recorridosProgramados.Any(rp => rp.TipoRecorridoId == tipo.IdTipoRecorrido && tipo.Horarios.Any(th => th.Id == rp.HorarioId)))
+                    continue;
+                
+                disponibles.Add(tipo);
+            }
+            return disponibles;
+        }
+
+        private IEnumerable<HorariosTipoRecorridoDto> TiposRecorridoConHorario(DateTime fecha)
+        {
+            return _context.Tipos.AsNoTracking()
+                .Include(t => t.Horarios)
+                .Where(t => t.Horarios.Any(h => h.Dia == DateAndTimeUtils.ToEnumDiaSemana(fecha)))
+                .Select(t => new HorariosTipoRecorridoDto
+                {
+                    IdTipoRecorrido = t.Id,
+                    Nombre = t.Nombre,
+                    Horarios = t.Horarios.Where(h => h.Dia == DateAndTimeUtils.ToEnumDiaSemana(fecha))
+                        .Select(h => new HorarioDto { Dia = h.Dia, Hora = h.Hora, Id = h.Id, TandaId = h.TandaId} )
+                })
+                .ToList();
+        }
     }
 }

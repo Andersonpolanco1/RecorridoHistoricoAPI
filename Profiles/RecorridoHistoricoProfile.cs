@@ -9,8 +9,9 @@ namespace EdecanesV2.Profiles
     {
         public RecorridoHistoricoProfile()
         {
-            CreateMap<RecorridoCreateDto, RecorridoHistorico>(); 
-            CreateMap<RecorridoHistorico, RecorridoReadDto>();
+            CreateMap<RecorridoCreateDto, RecorridoHistorico>();
+            CreateMap<RecorridoHistorico, RecorridoReadDto>(); 
+            CreateMap<RecorridoHistorico, RecorridoHistoricoDetailsDto>(); 
 
             CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
             CreateMap<DateTime?, DateTime>().ConvertUsing((src, dest) => src ?? dest);
