@@ -77,11 +77,17 @@ namespace EdecanesV2.Controllers
 
 
         // PUT: api/Tipos
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TipoReadDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> EditAsync(TipoUpdateDto tipoRecorrido)
+        public async Task<IActionResult> EditAsync(int id,TipoUpdateDto tipoRecorrido)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != tipoRecorrido.Id)
+                return BadRequest();
+
             var tipo = _tiposRepository.GetByIdAsync(tipoRecorrido.Id).Result;
 
             if (tipo == null)

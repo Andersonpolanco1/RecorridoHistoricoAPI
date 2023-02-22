@@ -2,10 +2,7 @@
 using EdecanesV2.Models;
 using EdecanesV2.Models.DTOs.Horarios;
 using EdecanesV2.Repositories.Abstract;
-using EdecanesV2.Repositories.Impl;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace EdecanesV2.Controllers
 {
@@ -78,14 +75,16 @@ namespace EdecanesV2.Controllers
 
 
         // PUT: api/Horarios
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HorarioDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> EditAsync(HorarioUpdateDto horarioRecorrido)
+        public async Task<IActionResult> EditAsync(int id, HorarioUpdateDto horarioRecorrido)
         {
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (id != horarioRecorrido.Id)
+                return BadRequest();
 
             try
             {

@@ -3,6 +3,7 @@ using EdecanesV2.Models.DTOs.FechasManuales;
 using EdecanesV2.Models;
 using EdecanesV2.Repositories.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using EdecanesV2.Models.DTOs.EstadoDtos;
 
 namespace EdecanesV2.Controllers
 {
@@ -66,11 +67,15 @@ namespace EdecanesV2.Controllers
         }
 
         // PUT: FechasManuales
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FechaManual))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> EditAsync(ActualizarFechaManualDto fechaManualUpdateDto)
+        public async Task<IActionResult> EditAsync(int id,ActualizarFechaManualDto fechaManualUpdateDto)
         {
+
+            if (id != fechaManualUpdateDto.Id)
+                return BadRequest();
+
             var fecha = await _fechasManualesRepository.GetAsync(fechaManualUpdateDto.Id);
 
             if (fecha is null)

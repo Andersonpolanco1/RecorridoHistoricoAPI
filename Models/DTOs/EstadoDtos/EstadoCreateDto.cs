@@ -1,4 +1,4 @@
-﻿namespace EdecanesV2.Models.EstadoDtos
+﻿namespace EdecanesV2.Models.DTOs.EstadoDtos
 {
     public class EstadoCreateDto
     {

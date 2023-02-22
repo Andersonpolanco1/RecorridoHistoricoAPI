@@ -9,6 +9,8 @@ using EdecanesV2.Data;
 using EdecanesV2.Models;
 using EdecanesV2.Extensions;
 using Microsoft.IdentityModel.Tokens;
+using EdecanesV2.Models.DTOs.TandaDtos;
+using AutoMapper;
 
 namespace EdecanesV2.Controllers
 {
@@ -17,17 +19,20 @@ namespace EdecanesV2.Controllers
     public class TandasController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public TandasController(ApplicationDbContext context)
+        public TandasController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Tandas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tanda>>> GetTandas()
+        public async Task<ActionResult<IEnumerable<TandaDto>>> GetTandas()
         {
-            return await _context.Tandas.ToListAsync();
+            var tandas = await _context.Tandas.ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<TandaDto>>(tandas));
         }
 
         // GET: api/Tandas/5
@@ -41,47 +46,51 @@ namespace EdecanesV2.Controllers
                 return NotFound();
             }
 
-            return tanda;
+            return Ok(_mapper.Map<TandaDto>(tanda));
         }
 
         // PUT: api/Tandas/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTanda(int id, Tanda tanda)
+        public async Task<IActionResult> PutTanda(int id, TandaDto tandaDto)
         {
-            if (id != tanda.Id)
-            {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != tandaDto.Id)
                 return BadRequest();
-            }
 
-            _context.Entry(tanda).State = EntityState.Modified;
+            if (_context.Tandas.Any(t => t.Descripcion == tandaDto.Descripcion))
+                return BadRequest("Tanda ya existe");
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TandaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            var tanda = _context.Tandas.FirstOrDefault(t => t.Id == tandaDto.Id);
 
-            return NoContent();
+            if (tanda is null)
+                return BadRequest();
+
+            _mapper.Map(tandaDto, tanda);
+            _context.Tandas.Update(tanda);
+            _context.SaveChanges();
+
+
+            return Ok(_mapper.Map<TandaDto>(tanda));
         }
 
         // POST: api/Tandas
         [HttpPost]
-        public async Task<ActionResult<Tanda>> PostTanda(Tanda tanda)
+        public async Task<ActionResult<Tanda>> PostTanda(TandaCreateDto tandaDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if(_context.Tandas.Any(t => t.Descripcion == tandaDto.Descripcion))
+                return BadRequest("Tanda ya existe");
+
+            var tanda =_mapper.Map<Tanda>(tandaDto);
+
             _context.Tandas.Add(tanda);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTanda", new { id = tanda.Id }, tanda);
+            return CreatedAtAction("GetTanda", new { id = tanda.Id }, _mapper.Map<TandaDto>(tanda));
         }
 
         // DELETE: api/Tandas/5

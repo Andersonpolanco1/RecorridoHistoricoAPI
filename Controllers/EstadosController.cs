@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using EdecanesV2.Data;
 using EdecanesV2.Models;
-using EdecanesV2.Models.EstadoDtos;
+using EdecanesV2.Models.DTOs.EstadoDtos;
 using AutoMapper;
 
 namespace EdecanesV2.Controllers
@@ -46,9 +46,7 @@ namespace EdecanesV2.Controllers
         public async Task<ActionResult<EstadoDto>> PutEstado(int id, EstadoDto estadoDto)
         {
             if (id != estadoDto.Id)
-            {
                 return BadRequest();
-            }
 
             var estado = await _context.Estados.FindAsync(id);
 

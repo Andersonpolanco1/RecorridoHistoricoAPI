@@ -66,9 +66,15 @@ namespace EdecanesV2.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<RecorridoReadDto>> Update(RecorridoUpdateDto recorridoUpdate)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<RecorridoReadDto>> Update(int id,RecorridoUpdateDto recorridoUpdate)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != recorridoUpdate.Id)
+                return BadRequest();
+
             try
             {
                 var recorrido = await _recorridosRepository.GetByIdAsync(recorridoUpdate.Id);

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EdecanesV2.Models;
-using EdecanesV2.Models.EstadoDtos;
+using EdecanesV2.Models.DTOs.EstadoDtos;
 
 namespace EdecanesV2.Profiles
 {
