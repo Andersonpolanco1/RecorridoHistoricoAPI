@@ -1,5 +1,6 @@
 ﻿using EdecanesV2.Data;
 using EdecanesV2.Models;
+using EdecanesV2.Utils;
 using Microsoft.EntityFrameworkCore;
 using static EdecanesV2.Models.Horario;
 
@@ -19,9 +20,29 @@ namespace EdecanesV2.Repositories.Impl
             var recorridosProgramados = GetRecorridosProgramados();
 
 
-            //TODO
+            var recorridosAgrup = (from recorrido in recorridosProgramados
+                     group recorrido by  recorrido.FechaVisita into recorridos
+                     select new
+                     {
+                         Key = recorridos.Key,
+                         horarios = recorridos.Count()
+                     }).ToList();
 
-            return null;
+
+            var horariosPorDia = GetCantidadHorariosPorDiaSemana();
+
+            List<string> fechasNoDisponibles = new();
+
+            foreach (var item in recorridosAgrup)
+            {
+                var dia = DateAndTimeUtils.ToEnumDiaSemana(item.Key);
+                var cantMax = horariosPorDia.FirstOrDefault(kvp => kvp.Key == dia).Value;
+
+                if(item.horarios >= cantMax)
+                    fechasNoDisponibles.Add(item.Key.ToShortDateString());
+            }
+
+            return fechasNoDisponibles;
         }
 
         private List<KeyValuePair<DiaSemana, int>> GetCantidadHorariosPorDiaSemana()
