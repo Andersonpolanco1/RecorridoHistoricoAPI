@@ -41,7 +41,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
 
             foreach (var item in recorridosAgrupadosPorFechaVisita)
             {
-                diaDelRecorrido = DateAndTimeUtils.ToEnumDiaSemana(item.Key);
+                diaDelRecorrido = Utils.Util.ToEnumDiaSemana(item.Key);
                 cantHorarios = horariosPorDia.FirstOrDefault(kvp => kvp.Key == diaDelRecorrido).Value;
 
                 if(item.horarios >= cantHorarios)
@@ -105,7 +105,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                 return new List<Horario>();
 
             var recorridosProgramados = GetRecorridosProgramados(fecha);
-            var horariosDelDia = GetHorariosPorDiaSemana(DateAndTimeUtils.ToEnumDiaSemana(fecha)).ToList();
+            var horariosDelDia = GetHorariosPorDiaSemana(Util.ToEnumDiaSemana(fecha)).ToList();
 
             List<Horario> horariosDisponibles = new();
 
@@ -159,12 +159,12 @@ namespace RecorridoHistoricoApi.Repositories.Impl
         {
             return _context.Tipos.AsNoTracking()
                 .Include(t => t.Horarios)
-                .Where(t => t.Horarios.Any(h => h.Dia == DateAndTimeUtils.ToEnumDiaSemana(fecha)))
+                .Where(t => t.Horarios.Any(h => h.Dia == Util.ToEnumDiaSemana(fecha)))
                 .Select(t => new HorariosTipoRecorridoDto
                 {
                     IdTipoRecorrido = t.Id,
                     Nombre = t.Nombre,
-                    Horarios = t.Horarios.Where(h => h.Dia == DateAndTimeUtils.ToEnumDiaSemana(fecha))
+                    Horarios = t.Horarios.Where(h => h.Dia == Util.ToEnumDiaSemana(fecha))
                         .Select(h => new HorarioDto { Dia = h.Dia, Hora = h.Hora, Id = h.Id, TandaId = h.TandaId} )
                 })
                 .ToList();

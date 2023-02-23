@@ -50,8 +50,13 @@ namespace RecorridoHistoricoApi.Repositories.Impl
 
             ValidarHorario(tipoRecorridoDb, recorridoHistorico);
 
+            if (!EsNumeroTelefonicoValido(recorridoHistorico.Telefono))
+                throw new ArgumentException("Número telefonico no válido");
+                
+            recorridoHistorico.Telefono = Utils.Util.CleanPhoneNumber(recorridoHistorico.Telefono);
+
             if ((!tipoRecorridoDb.EsFlexible) && !FechaVisitaEstaDisponible(recorridoHistorico))
-                throw new Exception($"Fecha no disponible.");
+                throw new Exception("Fecha no disponible.");
 
             const int creado = 1;
             recorridoHistorico.EstadoId = creado;
@@ -62,11 +67,14 @@ namespace RecorridoHistoricoApi.Repositories.Impl
             bool success = _context.SaveChanges() > affectedRows;
 
             if (!success)
-                throw new Exception("Ocurrio un error al momento de guardar el recorrido historico");
+                throw new Exception("Ocurrió un error al momento de guardar el recorrido histórico");
 
             await _emailService.SendEmailRecorridoCreadoAsync(recorridoHistorico);
             return recorridoHistorico;
         }
+
+        private bool EsNumeroTelefonicoValido(string numero) =>
+            (!string.IsNullOrEmpty(numero)) && Utils.Util.IsPhoneNumber(numero);
 
         private void ValidarHorario(Tipo? tipoRecorridoDb, RecorridoHistorico newRecorrido)
         {
@@ -77,7 +85,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                 throw new Exception($"Tipo de recorrido {tipoRecorridoDb.Descripcion} no tiene asignado el horario seleccionado.");
 
 
-            var dia = DateAndTimeUtils.ToEnumDiaSemana(newRecorrido.FechaVisita);
+            var dia = Utils.Util.ToEnumDiaSemana(newRecorrido.FechaVisita);
 
             if (!tipoRecorridoDb.Horarios.Any(h => h.Dia == dia))
                 throw new Exception("Tipo de recorrido u horario no valido");
@@ -107,6 +115,11 @@ namespace RecorridoHistoricoApi.Repositories.Impl
         {
             if (recorridoHistorico == null)
                 throw new ArgumentNullException(nameof(recorridoHistorico));
+
+            if (!EsNumeroTelefonicoValido(recorridoHistorico.Telefono))
+                throw new ArgumentException("Número telefonico no válido");
+
+            recorridoHistorico.Telefono = Utils.Util.CleanPhoneNumber(recorridoHistorico.Telefono);
 
             var tipoRecorridoDb = _context.Tipos
                 .AsNoTracking()
