@@ -6,7 +6,7 @@ namespace EdecanesV2.Repositories.Abstract
 {
     public interface IDashboardEdecanesRepository
     {
-        DtResult<RecorridoHistorico> GetSolicitudesDtAsync(DtParameters dtParameters);
+        DtResult<RecorridoDataTableDashboard> GetSolicitudesDtAsync(DtParameters dtParameters);
         Task<IEnumerable<EstadisticaDto>> GetEstadisticaEstadosAsync();
         Task<IEnumerable<EstadisticaDto>> GetEstadisticaTiposAsync();
         Task<IEnumerable<RecorridoCalendarioDashboardDto>> GetRecorridosCalendarioDashboard();

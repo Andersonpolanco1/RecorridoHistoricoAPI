@@ -21,7 +21,7 @@ namespace EdecanesV2.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RecorridoHistorico>>> GetAll()
+        public async Task<ActionResult<IEnumerable<RecorridoReadDto>>> GetAll()
         {
             var recorridos = await _recorridosRepository.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<RecorridoReadDto>>(recorridos));

@@ -21,11 +21,11 @@ namespace EdecanesV2.Controllers
 
         //POST: api/Dashboard/dt
         [HttpPost("dt")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DtResult<SolicitudesDtoDataTable>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DtResult<RecorridoDataTableDashboard>))]
         public IActionResult GetSolicitudesAsync([FromForm] DtParameters dtParameters)
         {
-            var result = _dashboardEdecanesRepository.GetSolicitudesDtAsync(dtParameters);
-            return Ok(result);
+            var recorridosDT = _dashboardEdecanesRepository.GetSolicitudesDtAsync(dtParameters);
+            return Ok(recorridosDT);
         }
 
         // GET: api/Dashboard/estadisticas/estados
@@ -33,8 +33,8 @@ namespace EdecanesV2.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EstadisticaDto>))]
         public async Task<IActionResult> GetEstadisticaEstadosAsync()
         {
-            var solicitudes = await _dashboardEdecanesRepository.GetEstadisticaEstadosAsync();
-            return Ok(solicitudes);
+            var estadisticas = await _dashboardEdecanesRepository.GetEstadisticaEstadosAsync();
+            return Ok(estadisticas);
         }
 
         // GET: api/Dashboard/estadisticas/tiposrecorrido
@@ -42,17 +42,17 @@ namespace EdecanesV2.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EstadisticaDto>))]
         public async Task<IActionResult> GetEstadisticaTiposAsync()
         {
-            var solicitudes = await _dashboardEdecanesRepository.GetEstadisticaTiposAsync();
-            return Ok(solicitudes);
+            var estadisticas = await _dashboardEdecanesRepository.GetEstadisticaTiposAsync();
+            return Ok(estadisticas);
         }
 
-        // GET: api/DashboardEdecanes/cal
+        // GET: api/Dashboard/cal
         [HttpGet("cal")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RecorridoCalendarioDashboardDto>))]
         public async Task<IActionResult> GetRecorridosCalendarioDashboard()
         {
-            var solicitudes = await _dashboardEdecanesRepository.GetRecorridosCalendarioDashboard();
-            return Ok(solicitudes);
+            var recorridos = await _dashboardEdecanesRepository.GetRecorridosCalendarioDashboard();
+            return Ok(recorridos);
         }
     }
 }

@@ -4,6 +4,7 @@ using EdecanesV2.Data;
 using EdecanesV2.Models;
 using EdecanesV2.Models.DTOs.EstadoDtos;
 using AutoMapper;
+using EdecanesV2.Extensions;
 
 namespace EdecanesV2.Controllers
 {
@@ -90,6 +91,44 @@ namespace EdecanesV2.Controllers
             await _context.SaveChangesAsync();
 
             return Ok("Deleted");
+        }
+
+        // POST: api/Estados/restoredeleted/5
+        [HttpPost("restoredeleted/{id}")]
+        public IActionResult RestoreDeleted(int id)
+        {
+            try
+            {
+                _context.Estados.RestoreDeleted(id);
+                _context.SaveChanges();
+                return Ok("Restored");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Estados/estadoEliminado
+        [HttpGet("Eliminados")]
+        public IActionResult Deleted()
+        {
+            var estadosEliminados =_context.Estados.IgnoreQueryFilters().Where(e => e.DeletedAt.HasValue).ToList();
+            return Ok(estadosEliminados);
+        }
+
+        // GET: api/Estados/estadoEliminado/5
+        [HttpGet("Eliminados/{id}")]
+        public IActionResult Deleted(int id)
+        {
+            var estadoEliminado = _context.Estados.IgnoreQueryFilters().FirstOrDefault(t => t.Id == id && t.DeletedAt.HasValue);
+
+            if (estadoEliminado == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(estadoEliminado);
         }
     }
 }

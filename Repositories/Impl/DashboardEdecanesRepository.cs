@@ -17,7 +17,7 @@ namespace EdecanesV2.Repositories.Impl
             _context = context;
         }
 
-        public DtResult<RecorridoHistorico> GetSolicitudesDtAsync(DtParameters dtParameters)
+        public DtResult<RecorridoDataTableDashboard> GetSolicitudesDtAsync(DtParameters dtParameters)
         {
             var query = _context.RecorridosHistoricos
                 .Include(r => r.Estado)
@@ -35,9 +35,19 @@ namespace EdecanesV2.Repositories.Impl
             var data = query
                 .Skip(dtParameters.Start)
                 .Take(dtParameters.Length)
+                .Select(r => new RecorridoDataTableDashboard
+                {
+                    Id = r.Id,
+                    Nombre = string.Join(" ", r.Nombres, r.Apellidos),
+                    FechaCreacion = r.FechaCreacion.ToShortDateString(),
+                    FechaVisita = r.FechaVisita.ToShortDateString(),
+                    EstadoDescripcion = r.Estado.Nombre,
+                    Institucion = r.Institucion,
+                    TipoRecorridoDescripcion = r.TipoRecorrido.Descripcion
+                })
                 .ToList();
 
-            return new DtResult<RecorridoHistorico>
+            return new DtResult<RecorridoDataTableDashboard>
             {
                 Draw = dtParameters.Draw,
                 RecordsTotal = totalResultsCount,
