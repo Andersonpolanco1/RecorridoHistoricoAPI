@@ -45,5 +45,14 @@ namespace EdecanesV2.Controllers
             var solicitudes = await _dashboardEdecanesRepository.GetEstadisticaTiposAsync();
             return Ok(solicitudes);
         }
+
+        // GET: api/DashboardEdecanes/cal
+        [HttpGet("cal")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RecorridoCalendarioDashboardDto>))]
+        public async Task<IActionResult> GetRecorridosCalendarioDashboard()
+        {
+            var solicitudes = await _dashboardEdecanesRepository.GetRecorridosCalendarioDashboard();
+            return Ok(solicitudes);
+        }
     }
 }

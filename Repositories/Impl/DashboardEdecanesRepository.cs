@@ -98,5 +98,27 @@ namespace EdecanesV2.Repositories.Impl
                 .Select(e => new EstadisticaDto { Id = e.Single().TipoRecorridoId, Nombre = e.Key, Cantidad = e.Count() })
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<RecorridoCalendarioDashboardDto>> GetRecorridosCalendarioDashboard()
+        {
+            return await _context.RecorridosHistoricos.AsNoTracking()
+                 .Include(x => x.TipoRecorrido)
+                 .Include(x => x.Horario)
+                 .Include(x => x.Estado)
+                 .Select(r => new RecorridoCalendarioDashboardDto
+                 {
+                     Id = r.Id,
+                     Nombre = string.Join(" ",r.Nombres, r.Apellidos),
+                     CantidadVisitantes = r.CantidadVisitantes,
+                     FechaVisita = r.FechaVisita.ToShortDateString(),
+                     FechaCreacion = r.FechaCreacion.ToShortDateString(),
+                     EstadoDescripcion = r.Estado.Nombre,
+                     EstadoId = r.EstadoId,
+                     Hora = r.Horario.Hora,
+                     TipoSolicitudDescripcion = r.TipoRecorrido.Descripcion,
+                     TipoSolicitudId = r.TipoRecorrido.Id
+                 })
+                 .ToListAsync();
+        }
     }
 }

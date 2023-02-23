@@ -9,5 +9,6 @@ namespace EdecanesV2.Repositories.Abstract
         DtResult<RecorridoHistorico> GetSolicitudesDtAsync(DtParameters dtParameters);
         Task<IEnumerable<EstadisticaDto>> GetEstadisticaEstadosAsync();
         Task<IEnumerable<EstadisticaDto>> GetEstadisticaTiposAsync();
+        Task<IEnumerable<RecorridoCalendarioDashboardDto>> GetRecorridosCalendarioDashboard();
     }
 }
