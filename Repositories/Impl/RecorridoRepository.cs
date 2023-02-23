@@ -103,14 +103,6 @@ namespace RecorridoHistoricoApi.Repositories.Impl
             return true;
         }
 
-        private List<RecorridoHistorico> GetRecorridosProgramados(DateTime fechaVisita)
-        {
-            return _context.RecorridosHistoricos.AsNoTracking()
-                .Include(r => r.Horario)
-                .Include(r => r.TipoRecorrido)
-                .Where(r => r.FechaVisita == fechaVisita).ToList();
-        }
-
         public async Task<RecorridoHistorico> EditAsync(RecorridoHistorico recorridoHistorico)
         {
             if (recorridoHistorico == null)
