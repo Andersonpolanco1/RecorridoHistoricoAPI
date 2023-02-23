@@ -19,13 +19,13 @@ namespace RecorridoHistoricoApi.Repositories.Impl
     {
         private readonly ApplicationDbContext _context;
         private readonly IEmailService _emailService;
-        private readonly IMapper _mapper;
+        private readonly IDisponibilidadesRepository _disponibilidades;
 
-        public RecorridoRepository(ApplicationDbContext context, IEmailService emailService, IMapper mapper)
+        public RecorridoRepository(ApplicationDbContext context, IEmailService emailService, IDisponibilidadesRepository disponibilidades)
         {
             _context = context;
             _emailService = emailService;
-            _mapper = mapper;
+            _disponibilidades = disponibilidades;
         }
 
         public async Task<IEnumerable<RecorridoHistorico>> GetAllAsync()
@@ -51,7 +51,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
             ValidarHorario(tipoRecorridoDb, recorridoHistorico);
 
             if ((!tipoRecorridoDb.EsFlexible) && !FechaVisitaEstaDisponible(recorridoHistorico))
-                throw new Exception($"Horario no disponible.");
+                throw new Exception($"Fecha no disponible.");
 
             const int creado = 1;
             recorridoHistorico.EstadoId = creado;
@@ -89,9 +89,18 @@ namespace RecorridoHistoricoApi.Repositories.Impl
 
         private bool FechaVisitaEstaDisponible(RecorridoHistorico recorrido)
         {
-            var recorridosProgramados = GetRecorridosProgramados(recorrido.FechaVisita);
+            var fechasNoDisponibles = _disponibilidades.FechasNoDisponibles();
 
-            return !recorridosProgramados.Any(rp => rp.HorarioId == recorrido.HorarioId);
+            if (fechasNoDisponibles.Llenas.Any(f => f == recorrido.FechaVisita))
+                return false;
+
+            if (fechasNoDisponibles.ManualesTemporales.Any(f => f == recorrido.FechaVisita))
+                return false;
+
+            if (fechasNoDisponibles.ManualesRecurrentes.Any(f => f.Month == recorrido.FechaVisita.Month && f.Day == recorrido.FechaVisita.Day))
+                return false;
+            
+            return true;
         }
 
         private List<RecorridoHistorico> GetRecorridosProgramados(DateTime fechaVisita)
@@ -117,7 +126,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                 ValidarHorario(tipoRecorridoDb, recorridoHistorico);
 
                 if ((!tipoRecorridoDb.EsFlexible) && !FechaVisitaEstaDisponible(recorridoHistorico))
-                    throw new Exception($"Horario no disponible.");
+                    throw new Exception($"Fecha no disponible.");
             }
 
             const int completado = 2;

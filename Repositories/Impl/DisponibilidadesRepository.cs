@@ -18,10 +18,11 @@ namespace RecorridoHistoricoApi.Repositories.Impl
             _context = context;
         }
 
-        public IEnumerable<string> FechasNoDisponibles()
+        public FechasNoDisponibles FechasNoDisponibles()
         {
-            var recorridosProgramados = GetRecorridosProgramados();
+            FechasNoDisponibles fechasNoDisponiblesDto = new();
 
+            var recorridosProgramados = GetRecorridosProgramados();
 
             var recorridosAgrupadosPorFechaVisita = (from recorrido in recorridosProgramados
                      group recorrido by  recorrido.FechaVisita into recorridos
@@ -30,11 +31,11 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                          Key = recorridos.Key,
                          horarios = recorridos.Count()
                      }).ToList();
-
+            
 
             var horariosPorDia = GetCantidadHorariosPorDiaSemana();
 
-            List<string> fechasNoDisponibles = new();
+            List<DateTime> fechasLlenas = new();
             DiaSemana diaDelRecorrido;
             int cantHorarios;
 
@@ -44,10 +45,14 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                 cantHorarios = horariosPorDia.FirstOrDefault(kvp => kvp.Key == diaDelRecorrido).Value;
 
                 if(item.horarios >= cantHorarios)
-                    fechasNoDisponibles.Add(item.Key.ToShortDateString());
+                    fechasLlenas.Add(item.Key);
             }
 
-            return fechasNoDisponibles;
+            fechasNoDisponiblesDto.Llenas = fechasLlenas;
+            fechasNoDisponiblesDto.ManualesRecurrentes = GetFechasManualesRecurrentes();
+            fechasNoDisponiblesDto.ManualesTemporales = GetFechasManualesTemporales();
+
+            return fechasNoDisponiblesDto;
         }
 
         private List<KeyValuePair<DiaSemana, int>> GetCantidadHorariosPorDiaSemana()
@@ -76,6 +81,22 @@ namespace RecorridoHistoricoApi.Repositories.Impl
             return _context.RecorridosHistoricos.AsNoTracking()
                 .Include(r => r.Horario)
                 .Where(r => r.FechaVisita >= DateTime.Now).ToList();
+        }
+
+        private List<DateTime> GetFechasManualesTemporales()
+        {
+            return _context.FechasManuales
+                .Where(fm => fm.EsRecurrente == false && fm.Fecha >= DateTime.Now)
+                .Select(fm => fm.Fecha)
+                .ToList();
+        }
+
+        private List<DateTime> GetFechasManualesRecurrentes()
+        {
+            return _context.FechasManuales
+                .Where(fm => fm.EsRecurrente == true)
+                .Select(fm => fm.Fecha)
+                .ToList();
         }
 
         public IEnumerable<Horario> HorariosDisponibles(DateTime fecha)

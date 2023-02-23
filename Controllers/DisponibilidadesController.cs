@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using RecorridoHistoricoApi.Models.DTOs.Horarios;
 using RecorridoHistoricoApi.Repositories.Abstract;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RecorridoHistoricoApi.Models.DTOs.DisponibilidadesDto;
 
 namespace RecorridoHistoricoApi.Controllers
 {
@@ -22,7 +22,8 @@ namespace RecorridoHistoricoApi.Controllers
         [HttpGet("FechasNoDisponibles")]
         public ActionResult FechasNoDisponibles()
         {
-            return Ok(_disponibilidades.FechasNoDisponibles());
+            var fechasNoDisponibles = _disponibilidades.FechasNoDisponibles();
+            return Ok(_mapper.Map<FechasNoDisponiblesDto>(fechasNoDisponibles));
         }
 
         [HttpGet("horarios")]
