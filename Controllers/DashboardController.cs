@@ -1,12 +1,9 @@
-﻿using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.RecorridoHistorico;
-using EdecanesV2.Repositories.Abstract;
-using EdecanesV2.Utils.DataTable;
-using Microsoft.AspNetCore.Http;
+﻿using RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico;
+using RecorridoHistoricoApi.Repositories.Abstract;
+using RecorridoHistoricoApi.Utils.DataTable;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-namespace EdecanesV2.Controllers
+namespace RecorridoHistoricoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

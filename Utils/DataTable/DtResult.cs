@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace EdecanesV2.Utils.DataTable
+namespace RecorridoHistoricoApi.Utils.DataTable
 {
     public class DtResult<T>
     {

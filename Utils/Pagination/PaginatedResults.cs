@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace EdecanesV2.Utils.Pagination
+namespace RecorridoHistoricoApi.Utils.Pagination
 {
     /// <summary>
     /// El objetivo de esta clase es para poder mapear los resultados de la paginacion a los DTOs correspondientes

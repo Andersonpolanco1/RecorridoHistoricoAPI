@@ -1,10 +1,10 @@
-﻿using EdecanesV2.Models.Base;
+﻿using RecorridoHistoricoApi.Models.Base;
 using NuGet.Packaging.Signing;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
-namespace EdecanesV2.Models
+namespace RecorridoHistoricoApi.Models
 {
     [Table("Horarios")]
     public class Horario : EntityBase

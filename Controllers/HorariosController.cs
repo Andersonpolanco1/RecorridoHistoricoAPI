@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.Horarios;
-using EdecanesV2.Repositories.Abstract;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.Horarios;
+using RecorridoHistoricoApi.Repositories.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EdecanesV2.Controllers
+namespace RecorridoHistoricoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

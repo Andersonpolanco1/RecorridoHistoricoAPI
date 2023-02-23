@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EdecanesV2.Models.Base
+namespace RecorridoHistoricoApi.Models.Base
 {
     public class EntityBase : IEntityBase
     {

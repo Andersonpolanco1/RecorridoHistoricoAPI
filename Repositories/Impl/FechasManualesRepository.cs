@@ -1,10 +1,10 @@
-﻿using EdecanesV2.Data;
-using EdecanesV2.Extensions;
-using EdecanesV2.Models;
-using EdecanesV2.Repositories.Abstract;
+﻿using RecorridoHistoricoApi.Data;
+using RecorridoHistoricoApi.Extensions;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
 
-namespace EdecanesV2.Repositories.Impl
+namespace RecorridoHistoricoApi.Repositories.Impl
 {
     public class FechasManualesRepository : IFechasManualesRepository
     {

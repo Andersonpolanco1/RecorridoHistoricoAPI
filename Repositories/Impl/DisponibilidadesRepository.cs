@@ -1,13 +1,13 @@
-﻿using EdecanesV2.Data;
-using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.DisponibilidadesDto;
-using EdecanesV2.Models.DTOs.Horarios;
-using EdecanesV2.Repositories.Abstract;
-using EdecanesV2.Utils;
+﻿using RecorridoHistoricoApi.Data;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.DisponibilidadesDto;
+using RecorridoHistoricoApi.Models.DTOs.Horarios;
+using RecorridoHistoricoApi.Repositories.Abstract;
+using RecorridoHistoricoApi.Utils;
 using Microsoft.EntityFrameworkCore;
-using static EdecanesV2.Models.Horario;
+using static RecorridoHistoricoApi.Models.Horario;
 
-namespace EdecanesV2.Repositories.Impl
+namespace RecorridoHistoricoApi.Repositories.Impl
 {
     public class DisponibilidadesRepository: IDisponibilidadesRepository
     {

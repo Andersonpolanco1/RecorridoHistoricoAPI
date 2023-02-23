@@ -1,12 +1,12 @@
-﻿using EdecanesV2.Extensions;
-using EdecanesV2.Data;
-using EdecanesV2.Models;
-using EdecanesV2.Repositories.Abstract;
-using EdecanesV2.Utils.DataTable;
+﻿using RecorridoHistoricoApi.Extensions;
+using RecorridoHistoricoApi.Data;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Repositories.Abstract;
+using RecorridoHistoricoApi.Utils.DataTable;
 using Microsoft.EntityFrameworkCore;
-using EdecanesV2.Models.DTOs.RecorridoHistorico;
+using RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico;
 
-namespace EdecanesV2.Repositories.Impl
+namespace RecorridoHistoricoApi.Repositories.Impl
 {
     public class DashboardEdecanesRepository : IDashboardEdecanesRepository
     {

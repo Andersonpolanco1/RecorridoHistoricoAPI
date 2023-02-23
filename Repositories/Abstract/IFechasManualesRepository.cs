@@ -1,6 +1,6 @@
-﻿using EdecanesV2.Models;
+﻿using RecorridoHistoricoApi.Models;
 
-namespace EdecanesV2.Repositories.Abstract
+namespace RecorridoHistoricoApi.Repositories.Abstract
 {
     public interface IFechasManualesRepository
     {

@@ -1,11 +1,11 @@
 ﻿using Antlr3.ST;
 using AutoMapper.Internal;
-using EdecanesV2.Models;
-using EdecanesV2.Services.Abstract;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Services.Abstract;
 using Microsoft.Extensions.Options;
 using System.Net.Mail;
 
-namespace EdecanesV2.Services.Impl
+namespace RecorridoHistoricoApi.Services.Impl
 {
     public class EmailService : IEmailService
     {

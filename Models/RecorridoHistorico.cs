@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using EdecanesV2.Models.Base;
+using RecorridoHistoricoApi.Models.Base;
 
-namespace EdecanesV2.Models
+namespace RecorridoHistoricoApi.Models
 {
     [Table("RecorridosHistorico")]
     public class RecorridoHistorico : EntityBase

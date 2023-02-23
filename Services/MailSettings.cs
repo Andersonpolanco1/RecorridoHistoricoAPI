@@ -1,4 +1,4 @@
-﻿namespace EdecanesV2.Services
+﻿namespace RecorridoHistoricoApi.Services
 {
     public class MailSettings
     {

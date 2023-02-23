@@ -1,4 +1,4 @@
-﻿namespace EdecanesV2.Models.DTOs.TandaDtos
+﻿namespace RecorridoHistoricoApi.Models.DTOs.TandaDtos
 {
     public class TandaCreateDto
     {

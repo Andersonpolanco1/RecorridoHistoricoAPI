@@ -1,6 +1,6 @@
-﻿using static EdecanesV2.Models.Horario;
+﻿using static RecorridoHistoricoApi.Models.Horario;
 
-namespace EdecanesV2.Utils
+namespace RecorridoHistoricoApi.Utils
 {
     public class DateAndTimeUtils
     {

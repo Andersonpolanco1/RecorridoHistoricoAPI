@@ -1,7 +1,7 @@
-﻿using EdecanesV2.Models.Base;
+﻿using RecorridoHistoricoApi.Models.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace EdecanesV2.Extensions
+namespace RecorridoHistoricoApi.Extensions
 {
     public static class DbContextExtensions
     {

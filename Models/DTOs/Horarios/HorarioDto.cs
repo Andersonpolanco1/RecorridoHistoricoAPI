@@ -1,4 +1,4 @@
-﻿namespace EdecanesV2.Models.DTOs.Horarios
+﻿namespace RecorridoHistoricoApi.Models.DTOs.Horarios
 {
     public class HorarioDto : HorarioCreateDto
     {

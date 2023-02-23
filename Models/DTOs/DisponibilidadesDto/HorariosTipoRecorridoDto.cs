@@ -1,6 +1,6 @@
-﻿using EdecanesV2.Models.DTOs.Horarios;
+﻿using RecorridoHistoricoApi.Models.DTOs.Horarios;
 
-namespace EdecanesV2.Models.DTOs.DisponibilidadesDto
+namespace RecorridoHistoricoApi.Models.DTOs.DisponibilidadesDto
 {
     public class HorariosTipoRecorridoDto
     {

@@ -1,4 +1,4 @@
-﻿namespace EdecanesV2.Utils.Pagination
+﻿namespace RecorridoHistoricoApi.Utils.Pagination
 {
     public class PaginationParams
     {

@@ -1,4 +1,4 @@
-﻿namespace EdecanesV2.Models.DTOs.EstadoDtos
+﻿namespace RecorridoHistoricoApi.Models.DTOs.EstadoDtos
 {
     public class EstadoDto
     {

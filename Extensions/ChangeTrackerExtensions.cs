@@ -1,9 +1,9 @@
-﻿using EdecanesV2.Models.Base;
+﻿using RecorridoHistoricoApi.Models.Base;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using EdecanesV2.Models;
+using RecorridoHistoricoApi.Models;
 
-namespace EdecanesV2.Extensions
+namespace RecorridoHistoricoApi.Extensions
 {
     public static class ChangeTrackerExtensions
     {

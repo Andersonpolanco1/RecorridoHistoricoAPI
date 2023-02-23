@@ -1,7 +1,7 @@
-﻿using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.DisponibilidadesDto;
+﻿using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.DisponibilidadesDto;
 
-namespace EdecanesV2.Repositories.Abstract
+namespace RecorridoHistoricoApi.Repositories.Abstract
 {
     public interface IDisponibilidadesRepository
     {

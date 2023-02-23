@@ -1,9 +1,9 @@
-﻿using EdecanesV2.Maps.Base;
-using EdecanesV2.Models;
+﻿using RecorridoHistoricoApi.Maps.Base;
+using RecorridoHistoricoApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EdecanesV2.Maps
+namespace RecorridoHistoricoApi.Maps
 {
     public class RecorridoHistoricoMap : EntityMapBase<RecorridoHistorico>
     {

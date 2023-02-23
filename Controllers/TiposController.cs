@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EdecanesV2.Data;
-using EdecanesV2.Models;
+using RecorridoHistoricoApi.Data;
+using RecorridoHistoricoApi.Models;
 using AutoMapper;
-using EdecanesV2.Models.DTOs.TipoRecorrido;
-using EdecanesV2.Repositories.Abstract;
-using EdecanesV2.Models.DTOs.Horarios;
+using RecorridoHistoricoApi.Models.DTOs.TipoRecorrido;
+using RecorridoHistoricoApi.Repositories.Abstract;
+using RecorridoHistoricoApi.Models.DTOs.Horarios;
 
-namespace EdecanesV2.Controllers
+namespace RecorridoHistoricoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

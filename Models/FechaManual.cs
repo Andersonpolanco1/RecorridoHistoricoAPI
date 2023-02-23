@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
-using EdecanesV2.Models.Base;
+using RecorridoHistoricoApi.Models.Base;
 
-namespace EdecanesV2.Models
+namespace RecorridoHistoricoApi.Models
 {
     [Table("FechasManuales")]
     public class FechaManual : EntityBase

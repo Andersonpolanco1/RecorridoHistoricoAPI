@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.TipoRecorrido;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.TipoRecorrido;
 using System;
 
-namespace EdecanesV2.Profiles
+namespace RecorridoHistoricoApi.Profiles
 {
     public class TipoProfile : Profile
     {

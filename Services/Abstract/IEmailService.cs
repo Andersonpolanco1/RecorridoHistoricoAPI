@@ -1,7 +1,7 @@
 ﻿using AutoMapper.Internal;
-using EdecanesV2.Models;
+using RecorridoHistoricoApi.Models;
 
-namespace EdecanesV2.Services.Abstract
+namespace RecorridoHistoricoApi.Services.Abstract
 {
     public interface IEmailService
     {

@@ -1,8 +1,8 @@
-﻿using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.RecorridoHistorico;
-using EdecanesV2.Utils.DataTable;
+﻿using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico;
+using RecorridoHistoricoApi.Utils.DataTable;
 
-namespace EdecanesV2.Repositories.Abstract
+namespace RecorridoHistoricoApi.Repositories.Abstract
 {
     public interface IDashboardEdecanesRepository
     {

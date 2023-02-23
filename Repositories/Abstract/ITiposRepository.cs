@@ -1,7 +1,7 @@
-﻿using EdecanesV2.Models;
+﻿using RecorridoHistoricoApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EdecanesV2.Repositories.Abstract
+namespace RecorridoHistoricoApi.Repositories.Abstract
 {
     public interface ITiposRepository
     {

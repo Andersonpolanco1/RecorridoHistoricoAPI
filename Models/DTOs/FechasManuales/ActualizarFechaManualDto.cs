@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EdecanesV2.Models.DTOs.FechasManuales
+namespace RecorridoHistoricoApi.Models.DTOs.FechasManuales
 {
     public class ActualizarFechaManualDto
     {

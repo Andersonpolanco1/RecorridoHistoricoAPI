@@ -1,4 +1,4 @@
-﻿namespace EdecanesV2.Models.Base
+﻿namespace RecorridoHistoricoApi.Models.Base
 {
     public interface IEntityBase
     {

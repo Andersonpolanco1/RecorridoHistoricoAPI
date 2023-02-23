@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.TandaDtos;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.TandaDtos;
 
-namespace EdecanesV2.Profiles
+namespace RecorridoHistoricoApi.Profiles
 {
     public class TandaProfile : Profile
     {

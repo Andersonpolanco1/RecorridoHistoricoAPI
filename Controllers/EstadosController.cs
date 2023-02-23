@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EdecanesV2.Data;
-using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.EstadoDtos;
+using RecorridoHistoricoApi.Data;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.EstadoDtos;
 using AutoMapper;
-using EdecanesV2.Extensions;
+using RecorridoHistoricoApi.Extensions;
 
-namespace EdecanesV2.Controllers
+namespace RecorridoHistoricoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

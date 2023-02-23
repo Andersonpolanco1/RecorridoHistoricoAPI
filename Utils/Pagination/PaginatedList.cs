@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace EdecanesV2.Utils.Pagination
+namespace RecorridoHistoricoApi.Utils.Pagination
 {
     public class PaginatedList<T>
     {

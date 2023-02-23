@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.FechasManuales;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.FechasManuales;
 
-namespace EdecanesV2.Profiles
+namespace RecorridoHistoricoApi.Profiles
 {
     public class FechaManualProfile : Profile
     {

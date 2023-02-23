@@ -1,7 +1,7 @@
-﻿using EdecanesV2.Utils.DataTable;
+﻿using RecorridoHistoricoApi.Utils.DataTable;
 using System.Linq.Expressions;
 
-namespace EdecanesV2.Extensions
+namespace RecorridoHistoricoApi.Extensions
 {
     public static class LinqExtensions
     {

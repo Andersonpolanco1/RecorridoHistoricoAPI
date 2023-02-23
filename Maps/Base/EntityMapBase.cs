@@ -1,7 +1,7 @@
-﻿using EdecanesV2.Models.Base;
+﻿using RecorridoHistoricoApi.Models.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EdecanesV2.Maps.Base
+namespace RecorridoHistoricoApi.Maps.Base
 {
 
     public class EntityMapBase<TEntity> : IEntityMapBase<TEntity> where TEntity : class, IEntityBase

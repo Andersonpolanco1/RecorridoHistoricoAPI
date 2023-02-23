@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using static EdecanesV2.Models.Horario;
+using static RecorridoHistoricoApi.Models.Horario;
 
-namespace EdecanesV2.Models.DTOs.Horarios
+namespace RecorridoHistoricoApi.Models.DTOs.Horarios
 {
     public class HorarioCreateDto
     {

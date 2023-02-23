@@ -1,19 +1,19 @@
 ﻿using AutoMapper.Internal;
 using AutoMapper;
-using EdecanesV2.Data;
-using EdecanesV2.Repositories.Abstract;
-using EdecanesV2.Services.Abstract;
-using EdecanesV2.Extensions;
-using EdecanesV2.Models;
+using RecorridoHistoricoApi.Data;
+using RecorridoHistoricoApi.Repositories.Abstract;
+using RecorridoHistoricoApi.Services.Abstract;
+using RecorridoHistoricoApi.Extensions;
+using RecorridoHistoricoApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.VisualBasic;
-using EdecanesV2.Utils;
-using static EdecanesV2.Models.Horario;
-using EdecanesV2.Services;
+using RecorridoHistoricoApi.Utils;
+using static RecorridoHistoricoApi.Models.Horario;
+using RecorridoHistoricoApi.Services;
 using System.Reflection.Metadata;
 
-namespace EdecanesV2.Repositories.Impl
+namespace RecorridoHistoricoApi.Repositories.Impl
 {
     public class RecorridoRepository : IRecorridosRepository
     {

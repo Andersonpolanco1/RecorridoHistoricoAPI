@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using EdecanesV2.Models;
-using EdecanesV2.Models.DTOs.Horarios;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.Horarios;
 using Newtonsoft.Json.Linq;
 using System;
-using static EdecanesV2.Models.Horario;
+using static RecorridoHistoricoApi.Models.Horario;
 
-namespace EdecanesV2.Profiles
+namespace RecorridoHistoricoApi.Profiles
 {
     public class HorarioProfile : Profile
     {

@@ -1,9 +1,9 @@
-using EdecanesV2.Data;
-using EdecanesV2.Repositories.Abstract;
-using EdecanesV2.Repositories.Impl;
-using EdecanesV2.Services;
-using EdecanesV2.Services.Abstract;
-using EdecanesV2.Services.Impl;
+using RecorridoHistoricoApi.Data;
+using RecorridoHistoricoApi.Repositories.Abstract;
+using RecorridoHistoricoApi.Repositories.Impl;
+using RecorridoHistoricoApi.Services;
+using RecorridoHistoricoApi.Services.Abstract;
+using RecorridoHistoricoApi.Services.Impl;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

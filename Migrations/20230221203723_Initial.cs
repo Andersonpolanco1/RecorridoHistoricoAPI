@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EdecanesV2.Migrations
+namespace RecorridoHistoricoApi.Migrations
 {
     public partial class Initial : Migration
     {

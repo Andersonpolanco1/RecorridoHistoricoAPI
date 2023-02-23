@@ -1,8 +1,8 @@
-﻿using EdecanesV2.Models.Base;
+﻿using RecorridoHistoricoApi.Models.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EdecanesV2.Models
+namespace RecorridoHistoricoApi.Models
 {
     [Table("Tandas")]
     public class Tanda : EntityBase

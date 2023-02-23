@@ -1,7 +1,7 @@
-﻿using EdecanesV2.Models.Base;
+﻿using RecorridoHistoricoApi.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EdecanesV2.Models
+namespace RecorridoHistoricoApi.Models
 {
     [Table("Estados")]
     public class Estado : EntityBase

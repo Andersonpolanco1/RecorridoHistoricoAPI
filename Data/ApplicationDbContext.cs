@@ -1,11 +1,11 @@
-﻿using EdecanesV2.Extensions;
-using EdecanesV2.Maps;
-using EdecanesV2.Models;
-using EdecanesV2.Models.Base;
+﻿using RecorridoHistoricoApi.Extensions;
+using RecorridoHistoricoApi.Maps;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace EdecanesV2.Data
+namespace RecorridoHistoricoApi.Data
 {
     public class ApplicationDbContext : DbContext
     {

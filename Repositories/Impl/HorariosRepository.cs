@@ -1,15 +1,15 @@
-﻿using EdecanesV2.Data;
-using EdecanesV2.Extensions;
-using EdecanesV2.Models;
-using EdecanesV2.Repositories.Abstract;
+﻿using RecorridoHistoricoApi.Data;
+using RecorridoHistoricoApi.Extensions;
+using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Text;
-using static EdecanesV2.Models.Horario;
+using static RecorridoHistoricoApi.Models.Horario;
 
-namespace EdecanesV2.Repositories.Impl
+namespace RecorridoHistoricoApi.Repositories.Impl
 {
     public class HorariosRepository : IHorariosRepository
     {

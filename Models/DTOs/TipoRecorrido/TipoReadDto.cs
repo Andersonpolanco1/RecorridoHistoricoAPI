@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EdecanesV2.Models.DTOs.TipoRecorrido
+namespace RecorridoHistoricoApi.Models.DTOs.TipoRecorrido
 {
     public class TipoReadDto
     {
