@@ -112,11 +112,13 @@ namespace EdecanesV2.Repositories.Impl
                 .Include(t => t.Horarios)
                 .FirstOrDefault(t => t.Id == recorridoHistorico.TipoRecorridoId);
 
-            if(IsFechaTipoUHorarioModificado(recorridoHistorico))
+            if (IsFechaTipoUHorarioModificado(recorridoHistorico))
+            {
                 ValidarHorario(tipoRecorridoDb, recorridoHistorico);
 
-            if ((!tipoRecorridoDb.EsFlexible) && !FechaVisitaEstaDisponible(recorridoHistorico))
-                throw new Exception($"Horario no disponible.");
+                if ((!tipoRecorridoDb.EsFlexible) && !FechaVisitaEstaDisponible(recorridoHistorico))
+                    throw new Exception($"Horario no disponible.");
+            }
 
             const int completado = 2;
 

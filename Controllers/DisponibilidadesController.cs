@@ -25,14 +25,14 @@ namespace EdecanesV2.Controllers
             return Ok(_disponibilidades.FechasNoDisponibles());
         }
 
-        [HttpGet("horariosDisponibles")]
+        [HttpGet("horarios")]
         public ActionResult HorariosDisponibles(DateTime fecha)
         {
             var horarios = _disponibilidades.HorariosDisponibles(fecha);
             return Ok(_mapper.Map<IEnumerable<HorarioDto>>(horarios));
         }
 
-        [HttpGet("TiposRecorridoDisponibles")]
+        [HttpGet("TiposRecorrido")]
         public ActionResult TiposRecorridoDisponibles(DateTime fecha)
         {
             var tipos = _disponibilidades.TiposRecorridoDisponibles(fecha);

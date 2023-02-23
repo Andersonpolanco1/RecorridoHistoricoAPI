@@ -26,6 +26,7 @@ builder.Services.AddScoped<IHorariosRepository, HorariosRepository>();
 builder.Services.AddScoped<IFechasManualesRepository, FechasManualesRepository>();
 builder.Services.AddScoped<IRecorridosRepository, RecorridoRepository>();
 builder.Services.AddScoped<IDisponibilidadesRepository, DisponibilidadesRepository>();
+builder.Services.AddScoped<IDashboardEdecanesRepository, DashboardEdecanesRepository>();
 
 var app = builder.Build();
 
