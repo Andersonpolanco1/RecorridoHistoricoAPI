@@ -3,7 +3,7 @@ using RecorridoHistoricoApi.Maps;
 using RecorridoHistoricoApi.Models;
 using RecorridoHistoricoApi.Models.Base;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using EFCore.NamingConventions;
 
 namespace RecorridoHistoricoApi.Data
 {
@@ -17,7 +17,6 @@ namespace RecorridoHistoricoApi.Data
             : base(options)
         {
         }
-
 
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<FechaManual> FechasManuales { get; set; }

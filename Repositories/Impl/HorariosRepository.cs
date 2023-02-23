@@ -78,7 +78,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                 h.Hora == horarioRecorrido.Hora))
             {
                 string msgError = new StringBuilder(150)
-                   .Append("Este tipo de recorrido ya tiene registrado el día ")
+                   .Append("Ya existe un horario el día ")
                    .Append(horarioRecorrido.Dia.ToString().ToLower())
                    .Append(" en tanda ")
                    .Append(horarioRecorrido.TandaId)
