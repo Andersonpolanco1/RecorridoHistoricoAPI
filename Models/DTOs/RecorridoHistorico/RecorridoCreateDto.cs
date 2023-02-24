@@ -19,11 +19,11 @@ namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
         public string Correo { get; set; }
 
 
-        [RegularExpression(Util.REGEX_CEDULA, ErrorMessage = "Por favor, digite un número de cédula correcto")]
+        [RegularExpression(Util.REGEX_CEDULA, ErrorMessage = "Por favor, digite un número de cédula correcto.")]
         public string Cedula { get; set; }
 
 
-        [RegularExpression(Util.REGEX_PHONE, ErrorMessage = "Por favor, digite un número de teléfono correcto")]
+        [RegularExpression(Util.REGEX_PHONE, ErrorMessage = "Por favor, digite un número de teléfono correcto.")]
         public string Telefono { get; set; }
 
         public int CantidadVisitantes { get; set; }

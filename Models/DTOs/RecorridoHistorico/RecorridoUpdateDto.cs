@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using RecorridoHistoricoApi.Utils;
 
 namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
 {
@@ -16,8 +17,7 @@ namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
         public string? Apellidos { get; set; }
 
 
-
-        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(Util.REGEX_PHONE, ErrorMessage = "Por favor, digite un número de teléfono correcto.")]
         public string? Telefono { get; set; }
 
         public int? CantidadVisitantes { get; set; } = null;
