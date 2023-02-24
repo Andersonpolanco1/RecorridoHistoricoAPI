@@ -20,6 +20,8 @@ namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
         [RegularExpression(Util.REGEX_PHONE, ErrorMessage = "Por favor, digite un número de teléfono correcto.")]
         public string? Telefono { get; set; }
 
+
+        [Range(10, 300, ErrorMessage = "Valor de {0} debe estar entre {1} y {2}.")]
         public int? CantidadVisitantes { get; set; } = null;
 
 

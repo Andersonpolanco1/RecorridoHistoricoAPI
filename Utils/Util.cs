@@ -7,6 +7,7 @@ namespace RecorridoHistoricoApi.Utils
     {
         public const string REGEX_PHONE = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
         public const string REGEX_CEDULA = "^[0-9]{3}-?[0-9]{7}-?[0-9]{1}$";
+        public const string REGEX_CORERO = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
 
 
         public static DiaSemana ToEnumDiaSemana(DateTime fecha)

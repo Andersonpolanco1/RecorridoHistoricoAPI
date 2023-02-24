@@ -15,8 +15,8 @@ namespace RecorridoHistoricoApi.Models
         [StringLength(100, ErrorMessage = "La cantidad de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public string Apellidos { get; set; }
 
-
         [DataType(DataType.EmailAddress)]
+        [RegularExpression(Util.REGEX_CORERO, ErrorMessage = "Por favor, digite un correo válido.")]
         public string Correo { get; set; }
 
 
@@ -27,6 +27,7 @@ namespace RecorridoHistoricoApi.Models
         [RegularExpression(Util.REGEX_PHONE, ErrorMessage = "Por favor, digite un número de teléfono correcto")]
         public string Telefono { get; set; }
 
+        [Range(10, 300, ErrorMessage = "Valor de {0} debe estar entre {1} y {2}.")]
         public int CantidadVisitantes { get; set; }
 
 
