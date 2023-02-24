@@ -5,6 +5,10 @@ namespace RecorridoHistoricoApi.Utils
 {
     public class Util
     {
+        public const string REGEX_PHONE = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+        public const string REGEX_CEDULA = "^[0-9]{3}-?[0-9]{7}-?[0-9]{1}$";
+
+
         public static DiaSemana ToEnumDiaSemana(DateTime fecha)
         {
             int dia = (int)fecha.DayOfWeek;
@@ -23,17 +27,23 @@ namespace RecorridoHistoricoApi.Utils
         }
 
 
-        // Regular expression used to validate a phone number.
-        public const string motif = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
 
-        public static bool IsPhoneNumber(string number)
+
+        public static bool IsValidPhoneNumber(string number)
         {
-            if (number != null) return Regex.IsMatch(number, motif);
+            if (number != null) return Regex.IsMatch(number, REGEX_PHONE);
             else return false;
         }
 
-        public static string CleanPhoneNumber(string number)
+        public static string OnlyDigits(string number)
             => new(number.Where(char.IsDigit).ToArray());
+
+
+        public static bool IsValidCedula(string number)
+        {
+            if (number != null) return Regex.IsMatch(number, REGEX_CEDULA);
+            else return false;
+        }
 
     }
 }

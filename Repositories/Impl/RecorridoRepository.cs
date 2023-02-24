@@ -49,12 +49,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                 .FirstOrDefault(t => t.Id == recorridoHistorico.TipoRecorridoId);
 
             ValidarHorario(tipoRecorridoDb, recorridoHistorico);
-
-            if (!EsNumeroTelefonicoValido(recorridoHistorico.Telefono))
-                throw new ArgumentException("Número telefonico no válido");
-                
-            recorridoHistorico.Telefono = Utils.Util.CleanPhoneNumber(recorridoHistorico.Telefono);
-
+              
             if ((!tipoRecorridoDb.EsFlexible) && !FechaVisitaEstaDisponible(recorridoHistorico))
                 throw new Exception("Fecha no disponible.");
 
@@ -73,9 +68,6 @@ namespace RecorridoHistoricoApi.Repositories.Impl
             return recorridoHistorico;
         }
 
-        private bool EsNumeroTelefonicoValido(string numero) =>
-            (!string.IsNullOrEmpty(numero)) && Utils.Util.IsPhoneNumber(numero);
-
         private void ValidarHorario(Tipo? tipoRecorridoDb, RecorridoHistorico newRecorrido)
         {
             if (tipoRecorridoDb == null)
@@ -85,7 +77,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                 throw new Exception($"Tipo de recorrido {tipoRecorridoDb.Descripcion} no tiene asignado el horario seleccionado.");
 
 
-            var dia = Utils.Util.ToEnumDiaSemana(newRecorrido.FechaVisita);
+            var dia = Util.ToEnumDiaSemana(newRecorrido.FechaVisita);
 
             if (!tipoRecorridoDb.Horarios.Any(h => h.Dia == dia))
                 throw new Exception("Tipo de recorrido u horario no valido");
@@ -115,11 +107,6 @@ namespace RecorridoHistoricoApi.Repositories.Impl
         {
             if (recorridoHistorico == null)
                 throw new ArgumentNullException(nameof(recorridoHistorico));
-
-            if (!EsNumeroTelefonicoValido(recorridoHistorico.Telefono))
-                throw new ArgumentException("Número telefonico no válido");
-
-            recorridoHistorico.Telefono = Utils.Util.CleanPhoneNumber(recorridoHistorico.Telefono);
 
             var tipoRecorridoDb = _context.Tipos
                 .AsNoTracking()

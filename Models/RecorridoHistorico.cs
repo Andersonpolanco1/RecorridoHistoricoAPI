@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using RecorridoHistoricoApi.Models.Base;
+using RecorridoHistoricoApi.Utils;
 
 namespace RecorridoHistoricoApi.Models
 {
@@ -19,10 +20,11 @@ namespace RecorridoHistoricoApi.Models
         public string Correo { get; set; }
 
 
+        [RegularExpression(Util.REGEX_CEDULA,ErrorMessage ="Por favor, digite un número de cédula correcto")]
         public string Cedula { get; set; }
 
 
-        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(Util.REGEX_PHONE, ErrorMessage = "Por favor, digite un número de teléfono correcto")]
         public string Telefono { get; set; }
 
         public int CantidadVisitantes { get; set; }
