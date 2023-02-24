@@ -12,6 +12,7 @@ namespace RecorridoHistoricoApi.Models.DTOs.TipoRecorrido
         [MaxLength(10)]
         public string? Color { get; set; }
 
+        [Range(10, 300, ErrorMessage = "Valor de {0} debe estar entre {1} y {2}.")]
         public int CantidadMaxima { get; set; }
 
         [MaxLength(255)]

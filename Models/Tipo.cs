@@ -18,6 +18,7 @@ namespace RecorridoHistoricoApi.Models
         [StringLength(50, ErrorMessage = "La cantidad de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public string? Color { get; set; }
 
+        [Range(10, 300, ErrorMessage = "Valor de {0} debe estar entre {1} y {2}.")]
         public int CantidadMaxima { get; set; }
 
         [MaxLength(255)]

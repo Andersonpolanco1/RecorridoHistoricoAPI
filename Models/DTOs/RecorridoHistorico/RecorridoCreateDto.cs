@@ -30,7 +30,6 @@ namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
         [Range(10, 300, ErrorMessage = "Valor de {0} debe estar entre {1} y {2}.")]
         public int CantidadVisitantes { get; set; }
 
-
         [DataType(DataType.Date)]
         [Column(TypeName = "Date")]
         public DateTime FechaVisita { get; set; }

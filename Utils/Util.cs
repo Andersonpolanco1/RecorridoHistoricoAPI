@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using static RecorridoHistoricoApi.Models.Horario;
 
 namespace RecorridoHistoricoApi.Utils
@@ -27,9 +28,6 @@ namespace RecorridoHistoricoApi.Utils
             };
         }
 
-
-
-
         public static bool IsValidPhoneNumber(string number)
         {
             if (number != null) return Regex.IsMatch(number, REGEX_PHONE);
@@ -46,5 +44,17 @@ namespace RecorridoHistoricoApi.Utils
             else return false;
         }
 
+        public static string ToTitleCase(string text) =>
+             CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text);
+
+        public static string? ToCapitalizeCase(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return null;
+            else if (text.Length == 1)
+                return char.ToUpper(text[0]).ToString();
+            else
+                return (char.ToUpper(text[0]) + text.Substring(1));
+        }
     }
 }

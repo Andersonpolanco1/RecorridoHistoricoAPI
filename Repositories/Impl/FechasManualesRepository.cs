@@ -80,7 +80,7 @@ namespace RecorridoHistoricoApi.Repositories.Impl
 
         public bool FechaManualExiste(FechaManual fecha)
         {
-            return _context.FechasManuales.Any(f => f.Fecha == fecha.Fecha && f.EsRecurrente == fecha.EsRecurrente);
+            return _context.FechasManuales.Any(f => f.Fecha == fecha.Fecha && f.EsRecurrente == fecha.EsRecurrente && f.Id != fecha.Id);
         }
 
 

@@ -20,6 +20,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+
 builder.Services.AddTransient<IEmailService, EmailService>();
 
 builder.Services.AddScoped<ITiposRepository, TipoRepository>();
