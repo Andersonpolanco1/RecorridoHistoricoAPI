@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using RecorridoHistoricoApi.Utils;
+using System.Configuration;
+using System.Runtime.CompilerServices;
 
 namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
 {
@@ -30,7 +32,7 @@ namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
         [Range(10, 300, ErrorMessage = "Valor de {0} debe estar entre {1} y {2}.")]
         public int CantidadVisitantes { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date,ErrorMessage ="Formato de fecha no valido.")]
         [Column(TypeName = "Date")]
         public DateTime FechaVisita { get; set; }
 
@@ -44,5 +46,6 @@ namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
 
         public int TipoRecorridoId { get; set; }
         public int HorarioId { get; set; }
+        public int AsignadoAId { get; set; }
     }
 }

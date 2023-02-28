@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RecorridoHistoricoApi.Models;
+using RecorridoHistoricoApi.Models.DTOs.Dashboard;
 using RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico;
 using RecorridoHistoricoApi.Utils;
 using static RecorridoHistoricoApi.Models.Horario;
@@ -10,8 +11,11 @@ namespace RecorridoHistoricoApi.Profiles
     {
         public RecorridoHistoricoProfile()
         {
-            CreateMap<RecorridoHistorico, RecorridoReadDto>(); 
+            CreateMap<RecorridoHistorico, RecorridoReadDto>();
             CreateMap<RecorridoHistorico, RecorridoHistoricoDetailsDto>();
+            CreateMap<RecorridoDashboardUpdateDto, RecorridoHistorico>()
+                .ForAllMembers(opt =>
+                opt.Condition((src, dest, value) => value != null)); 
 
             CreateMap<RecorridoCreateDto, RecorridoHistorico>()
                 .ForMember(dest => dest.Nombres, opts => opts.MapFrom(dest => Util.ToTitleCase(dest.Nombres)))

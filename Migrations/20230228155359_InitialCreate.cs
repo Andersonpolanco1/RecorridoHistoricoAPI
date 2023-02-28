@@ -5,10 +5,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RecorridoHistoricoApi.Migrations
 {
-    public partial class CreateDB : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Empleados",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    user_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    nombres = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    apellidos = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    cedula = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_empleados", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Estados",
                 columns: table => new
@@ -138,11 +155,18 @@ namespace RecorridoHistoricoApi.Migrations
                     estado_id = table.Column<int>(type: "int", nullable: false),
                     tipo_recorrido_id = table.Column<int>(type: "int", nullable: false),
                     horario_id = table.Column<int>(type: "int", nullable: false),
+                    asignado_a_id = table.Column<int>(type: "int", nullable: false),
                     deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_recorridos_historico", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_recorridos_historico_empleados_asignado_a_id",
+                        column: x => x.asignado_a_id,
+                        principalTable: "Empleados",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_recorridos_historico_estados_estado_id",
                         column: x => x.estado_id,
@@ -174,6 +198,11 @@ namespace RecorridoHistoricoApi.Migrations
                 column: "tanda_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_recorridos_historico_asignado_a_id",
+                table: "RecorridosHistorico",
+                column: "asignado_a_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_recorridos_historico_estado_id",
                 table: "RecorridosHistorico",
                 column: "estado_id");
@@ -199,6 +228,9 @@ namespace RecorridoHistoricoApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "RecorridosHistorico");
+
+            migrationBuilder.DropTable(
+                name: "Empleados");
 
             migrationBuilder.DropTable(
                 name: "Estados");

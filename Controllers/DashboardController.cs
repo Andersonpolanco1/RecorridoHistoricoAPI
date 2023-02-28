@@ -1,7 +1,10 @@
-﻿using RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico;
-using RecorridoHistoricoApi.Repositories.Abstract;
+﻿using RecorridoHistoricoApi.Repositories.Abstract;
 using RecorridoHistoricoApi.Utils.DataTable;
 using Microsoft.AspNetCore.Mvc;
+using RecorridoHistoricoApi.Models.DTOs.Dashboard;
+using RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico;
+using RecorridoHistoricoApi.Repositories.Impl;
+using AutoMapper;
 
 namespace RecorridoHistoricoApi.Controllers
 {
@@ -10,10 +13,14 @@ namespace RecorridoHistoricoApi.Controllers
     public class DashboardController : ControllerBase
     {
         private readonly IDashboardEdecanesRepository _dashboardEdecanesRepository;
+        private readonly IRecorridosRepository _recorridosRepository;
+        private readonly IMapper _mapper;
 
-        public DashboardController(IDashboardEdecanesRepository dashboardEdecanesRepository)
+        public DashboardController(IDashboardEdecanesRepository dashboardEdecanesRepository, IRecorridosRepository recorridosRepository, IMapper mapper)
         {
             _dashboardEdecanesRepository = dashboardEdecanesRepository;
+            _recorridosRepository = recorridosRepository;
+            _mapper = mapper;
         }
 
         //POST: api/Dashboard/dt
@@ -50,6 +57,32 @@ namespace RecorridoHistoricoApi.Controllers
         {
             var recorridos = await _dashboardEdecanesRepository.GetRecorridosCalendarioDashboard();
             return Ok(recorridos);
+        }
+
+
+        // PUT: api/Dashboard/recorridoshistoricos
+        [HttpPut("recorridoshistoricos/{recorridoId}")]
+        public async Task<IActionResult> ActualizarRecorrido(int recorridoId, RecorridoDashboardUpdateDto recorridoDashboardUpdate)
+        {
+            if (recorridoId != recorridoDashboardUpdate.Id)
+                return BadRequest();
+
+            try
+            {
+                var recorrido = await _recorridosRepository.GetByIdAsync(recorridoDashboardUpdate.Id);
+
+                if (recorrido == null)
+                    return NotFound();
+
+                _mapper.Map(recorridoDashboardUpdate, recorrido);
+                _dashboardEdecanesRepository.ActualizarRecorrido(recorrido);
+
+                return Ok(_mapper.Map<RecorridoReadDto>(recorrido));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

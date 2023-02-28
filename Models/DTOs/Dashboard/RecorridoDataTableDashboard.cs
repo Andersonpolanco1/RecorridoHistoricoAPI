@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
+namespace RecorridoHistoricoApi.Models.DTOs.Dashboard
 {
     public class RecorridoDataTableDashboard
     {
