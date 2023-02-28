@@ -1,5 +1,5 @@
 ﻿using RecorridoHistoricoApi.Models;
-using RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico;
+using RecorridoHistoricoApi.Models.DTOs.Dashboard;
 using RecorridoHistoricoApi.Utils.DataTable;
 
 namespace RecorridoHistoricoApi.Repositories.Abstract
@@ -10,5 +10,6 @@ namespace RecorridoHistoricoApi.Repositories.Abstract
         Task<IEnumerable<EstadisticaDto>> GetEstadisticaEstadosAsync();
         Task<IEnumerable<EstadisticaDto>> GetEstadisticaTiposAsync();
         Task<IEnumerable<RecorridoCalendarioDashboardDto>> GetRecorridosCalendarioDashboard();
+        RecorridoHistorico ActualizarRecorrido(RecorridoHistorico recorridoupdateDto);
     }
 }

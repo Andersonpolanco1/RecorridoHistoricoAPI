@@ -1,4 +1,4 @@
-﻿namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
+﻿namespace RecorridoHistoricoApi.Models.DTOs.Dashboard
 {
     public class EstadisticaDto
     {

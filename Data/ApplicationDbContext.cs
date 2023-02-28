@@ -24,6 +24,7 @@ namespace RecorridoHistoricoApi.Data
         public virtual DbSet<Tipo> Tipos { get; set; }
         public virtual DbSet<Horario> Horarios { get; set; }
         public virtual DbSet<Tanda> Tandas { get; set; }
+        public virtual DbSet<Empleado> Empleados { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +34,7 @@ namespace RecorridoHistoricoApi.Data
             modelBuilder.ApplyConfiguration(new RecorridoHistoricoMap());
             modelBuilder.ApplyConfiguration(new TandaMap());
             modelBuilder.ApplyConfiguration(new TipoMap());
+            modelBuilder.ApplyConfiguration(new EmpleadoMap());
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -58,5 +60,7 @@ namespace RecorridoHistoricoApi.Data
             ChangeTracker.SetAuditProperties();
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
+
+        public DbSet<RecorridoHistoricoApi.Models.Empleado> Empleado { get; set; }
     }
 }

@@ -49,9 +49,11 @@ namespace RecorridoHistoricoApi.Models
         public int EstadoId { get; set; }
         public int TipoRecorridoId { get; set; }
         public int HorarioId { get; set; }
+        public int AsignadoAId { get; set; }
 
         public Tipo? TipoRecorrido { get; set; }
         public Estado? Estado { get; set; }
         public Horario? Horario { get; set; }
+        public Empleado? AsignadoA { get; set; }
     }
 }

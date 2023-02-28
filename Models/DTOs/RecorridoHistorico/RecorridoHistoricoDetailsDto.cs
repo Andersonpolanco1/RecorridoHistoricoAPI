@@ -21,5 +21,7 @@ namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
         public int EstadoId { get; set; }
         public int TipoRecorridoId { get; set; }
         public int HorarioId { get; set; }
+        public int AsignadoAId { get; set; }
+
     }
 }

@@ -12,8 +12,8 @@ using RecorridoHistoricoApi.Data;
 namespace RecorridoHistoricoApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230223175555_CreateDB")]
-    partial class CreateDB
+    [Migration("20230228155359_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,48 @@ namespace RecorridoHistoricoApi.Migrations
                         .HasDatabaseName("ix_horario_tipo_tipos_recorrido_id");
 
                     b.ToTable("horario_tipo", (string)null);
+                });
+
+            modelBuilder.Entity("RecorridoHistoricoApi.Models.Empleado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Apellidos")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("apellidos");
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("cedula");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Nombres")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("nombres");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("user_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_empleados");
+
+                    b.ToTable("Empleados");
                 });
 
             modelBuilder.Entity("RecorridoHistoricoApi.Models.Estado", b =>
@@ -154,6 +196,10 @@ namespace RecorridoHistoricoApi.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("apellidos");
 
+                    b.Property<int>("AsignadoAId")
+                        .HasColumnType("int")
+                        .HasColumnName("asignado_a_id");
+
                     b.Property<int>("CantidadVisitantes")
                         .HasColumnType("int")
                         .HasColumnName("cantidad_visitantes");
@@ -221,6 +267,9 @@ namespace RecorridoHistoricoApi.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_recorridos_historico");
+
+                    b.HasIndex("AsignadoAId")
+                        .HasDatabaseName("ix_recorridos_historico_asignado_a_id");
 
                     b.HasIndex("EstadoId")
                         .HasDatabaseName("ix_recorridos_historico_estado_id");
@@ -333,6 +382,13 @@ namespace RecorridoHistoricoApi.Migrations
 
             modelBuilder.Entity("RecorridoHistoricoApi.Models.RecorridoHistorico", b =>
                 {
+                    b.HasOne("RecorridoHistoricoApi.Models.Empleado", "AsignadoA")
+                        .WithMany()
+                        .HasForeignKey("AsignadoAId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_recorridos_historico_empleados_asignado_a_id");
+
                     b.HasOne("RecorridoHistoricoApi.Models.Estado", "Estado")
                         .WithMany()
                         .HasForeignKey("EstadoId")
@@ -353,6 +409,8 @@ namespace RecorridoHistoricoApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_recorridos_historico_tipos_tipo_recorrido_id");
+
+                    b.Navigation("AsignadoA");
 
                     b.Navigation("Estado");
 

@@ -40,5 +40,7 @@ namespace RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico
         public int? EstadoId { get; set; } = null;
         public int? TipoRecorridoId { get; set; } = null;
         public int? HorarioId { get; set; } = null;
+        public int? AsignadoAId { get; set; } = null;
+
     }
 }

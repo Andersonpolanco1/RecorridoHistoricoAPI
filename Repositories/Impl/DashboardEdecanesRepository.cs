@@ -4,17 +4,21 @@ using RecorridoHistoricoApi.Models;
 using RecorridoHistoricoApi.Repositories.Abstract;
 using RecorridoHistoricoApi.Utils.DataTable;
 using Microsoft.EntityFrameworkCore;
-using RecorridoHistoricoApi.Models.DTOs.RecorridoHistorico;
+using RecorridoHistoricoApi.Models.DTOs.Dashboard;
+using RecorridoHistoricoApi.Services;
+using RecorridoHistoricoApi.Services.Abstract;
 
 namespace RecorridoHistoricoApi.Repositories.Impl
 {
     public class DashboardEdecanesRepository : IDashboardEdecanesRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEmailService _emailService;
 
-        public DashboardEdecanesRepository(ApplicationDbContext context)
+        public DashboardEdecanesRepository(ApplicationDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         public DtResult<RecorridoDataTableDashboard> GetSolicitudesDtAsync(DtParameters dtParameters)
@@ -129,6 +133,38 @@ namespace RecorridoHistoricoApi.Repositories.Impl
                      TipoSolicitudId = r.TipoRecorrido.Id
                  })
                  .ToListAsync();
+        }
+
+        public RecorridoHistorico ActualizarRecorrido(RecorridoHistorico recorridoupdateDto)
+        {
+            if (recorridoupdateDto == null)
+                throw new ArgumentNullException(nameof(recorridoupdateDto));
+
+            const int completado = 2;
+
+            if (completado == recorridoupdateDto.EstadoId)
+                recorridoupdateDto.FechaCulminacion = DateTime.Now;
+
+            _context.RecorridosHistoricos.Update(recorridoupdateDto);
+
+            const int affectedRows = 0;
+            bool success = _context.SaveChanges() > affectedRows;
+
+            if (!success)
+                throw new Exception("Ocurrio un error al momento de guardar el recorrido historico");
+
+            if (completado == recorridoupdateDto.EstadoId)
+            {
+                _emailService.SendEmailAsync(new MailRequest
+                {
+                    From = "danielcleto@presidencia.gob.do",
+                    To = recorridoupdateDto.Correo,
+                    Subject = "Solicitud de Recorrido",
+                    Body = "Tu solicitudDto ha sido completada exitoxamente."
+                });
+            }
+
+            return recorridoupdateDto;
         }
     }
 }
